@@ -87,7 +87,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': "enzyme_mining",
         "USER": "root",
-        "PASSWORD": "157867",
+        "PASSWORD": "root123",
 
         "HOST": "127.0.0.1",
         "PORT": "3306",
