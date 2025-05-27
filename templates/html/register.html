@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>用户注册</title>
+</head>
+<body>
+    <h2>用户注册</h2>
+    <!-- 显示消息 -->
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}  <!-- Django会自动生成表单 -->
+        <button type="submit">注册</button>
+    </form>
+    <p>已经有账号？<a href="{% url 'login' %}">登录</a></p>
+</body>
+</html>

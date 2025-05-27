@@ -1,0 +1,817 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Import Into Database</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'asset/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+    <!-- Animate CSS -->
+    <link href="{% static 'css/animate.css' %}" rel="stylesheet">
+    <!-- Owl-Carousel -->
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.transitions.css' %}">
+    <!-- Custom CSS -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/responsive.css' %}" rel="stylesheet">
+    <!-- Colors CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/green.css' %}">
+    <!-- Colors CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/green.css' %}" title="green">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/light-red.css' %}" title="light-red">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/blue.css' %}" title="blue">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/light-blue.css' %}" title="light-blue">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/yellow.css' %}" title="yellow">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/light-green.css' %}" title="light-green">
+    <!-- Custom Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <!-- Modernizer js -->
+    <script src="{% static 'js/modernizr.custom.js' %}"></script>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .page-scroll {
+            font-size: 18px;
+        }
+
+        .navbar-default .nav li a {
+            font-size: 14px !important;
+        }
+
+        #page-top {
+            position: relative;
+            height: 100vh;
+            background-image: url('../../static/img/database1.jpg'); /* 设置背景图片 */
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            padding: 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        #page-top .carousel-inner {
+            position: relative;
+            z-index: 10001;
+        }
+
+        #page-top .carousel-item {
+            height: 100vh; /* 保证每个轮播项的高度为视口高度 */
+        }
+
+        #page-top .carousel-item img {
+            object-fit: cover; /* 确保图片填充并保持比例 */
+            height: 100%; /* 强制图片占满轮播项的高度 */
+            width: 100%;
+        }
+
+        /*
+                .portfolio-section-1 {
+                    background: linear-gradient(135deg, #e2ebff, #b0c7ff);
+                    padding: 20px;
+                    border-radius: 12px;
+                    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1), 0 4px 16px rgba(0, 0, 0, 0.15);
+                    transition: all 0.3s ease;
+                }
+
+                .portfolio-section-1:hover {
+                    transform: scale(1.02);
+                    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), 0 8px 24px rgba(0, 0, 0, 0.2);
+                }
+
+         */
+
+        .result {
+            background: linear-gradient(135deg, #e2ebff, #b0c7ff); /* 渐变背景色 */
+            padding: 20px;
+            border-radius: 12px; /* 增加圆角 */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1), 0 4px 16px rgba(0, 0, 0, 0.15); /* 更强烈的阴影效果 */
+            transition: all 0.3s ease; /* 增加过渡效果 */
+        }
+
+        .result:hover {
+            transform: scale(1.02); /* 鼠标悬停时稍微放大 */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), 0 8px 24px rgba(0, 0, 0, 0.2); /* 放大阴影效果 */
+        }
+
+        .card-header {
+            background-color: #0b7ec4;
+            color: white;
+            padding: 12px 16px;
+        }
+
+        /* 卡片标题文字的样式 */
+        .card-header h5 {
+            font-size: 1.25rem;
+            margin-bottom: 0;
+        }
+
+        #fastaTable {
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: collapse;
+        }
+
+        #fastaTable, #fastaTable th, #fastaTable td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            word-wrap: break-word;
+        }
+
+        #fastaTable td:nth-child(7) {
+            max-width: 150px; /* 设置最大宽度和其他列一样 */
+            white-space: nowrap; /* 防止自动换行 */
+            overflow-x: auto; /* 超出部分显示滚动条 */
+            display: block; /* 使td可滚动 */
+        }
+
+        #fastaTable th, #fastaTable td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        #fastaTable th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        #fastaTable tr:hover {
+            background-color: #7aa6da;
+        }
+
+        #fastaFileInput {
+            margin-bottom: 10px;
+        }
+
+        /* 分页栏容器 */
+        .pagination {
+            display: flex;
+            justify-content: right;
+            align-items: center;
+            margin-top: 15px;
+            font-family: Arial, sans-serif;
+        }
+
+        /* 按钮样式 */
+        .pagination button,
+        .pagination span {
+            padding: 8px 12px;
+            margin: 0 4px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+            border: 1px solid #dcdfe6;
+            background-color: #f4f4f4;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* 按钮悬停和激活效果 */
+        .pagination button:hover:not(.disabled),
+        .pagination span:hover:not(.disabled) {
+            background-color: #409EFF;
+            color: #fff;
+            border-color: #409EFF;
+        }
+
+        /* 当前页按钮样式 */
+        .pagination button.disabled,
+        .pagination span.disabled {
+            background-color: #eaeaea;
+            color: #0b7ec4;
+            cursor: not-allowed;
+        }
+
+        /* 分隔符的样式 */
+        .pagination span {
+            cursor: default;
+            background-color: transparent;
+            color: #409EFF;
+        }
+
+        /* 上下按钮 */
+        .pagination button:disabled {
+            cursor: not-allowed;
+            background-color: #eaeaea;
+            border-color: #eaeaea;
+        }
+
+        .dropdown-menu li a {
+            color: black !important;
+        }
+
+        .dropdown-menu li a:hover {
+            color: #7ad6ff !important;
+        }
+
+        /* 响应式设计: 在屏幕小于600px时，表格宽度可自适应 */
+        @media (max-width: 600px) {
+            .protein-matrix {
+                font-size: 14px;
+            }
+
+            .protein-matrix th, .protein-matrix td {
+                padding: 8px;
+            }
+        }
+
+        .section-title {
+            margin-bottom: 30px;
+        }
+
+        .content-section {
+            padding: 50px 0;
+        }
+
+        .content-box {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel img {
+            border-radius: 10px;
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+    </style>
+
+
+</head>
+
+
+<body class="index">
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand page-scroll" href="#page-top">Enzyme</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <!--首页下拉框-->
+                <li>
+                    <a href="{% url 'page1' %}">首页 </a>
+                </li>
+                <li><a class="page-scroll" href="{% url 'importdatabase' %}">导入蛋白质数据</a></li>
+                <li><a class="page-scroll" href="{% url 'page2' %}">表征模型</a></li>
+                <li><a class="page-scroll" href="{% url 'similarenzyme' %}">酶挖掘</a></li>
+                <li><a class="page-scroll" href="{% url 'dataanalysis' %}">蛋白质信息可视化</a></li>
+                <li><a class="page-scroll" href="{% url 'enzymemodel' %}">蛋白质3D模型</a></li>
+                <li><a class="page-scroll" href="{% url 'about' %}">蛋白质数据库</a></li>
+
+                <li>
+                    <a href="http://127.0.0.1:8000/admin_ls/" style="margin-left: 30px;">管理员登录</a>
+                </li>
+
+            </ul>
+
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+
+
+<section id="page-top">
+    <div id="main-slide" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="item active">
+                <div class="slider-content">
+                    <div class="col-md-12 text-center">
+                        <h1 class="animated3">
+                            <span><strong>数据</strong>中心</span>
+                        </h1>
+                        <p class="animated2"><span>阅览我们的数据</span>
+                        </p>
+                        <a href="#import" class="page-scroll btn btn-primary animated1">GET STARTED</a>
+                        <a href="#introduction" class="page-scroll btn btn-primary animated1" style="margin: 0 10px;">LEARN
+                            MORE</a>
+                        <a href="#examples" class="page-scroll btn btn-primary animated1">EXAMPLES</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="import" class="portfolio-section-1 result"
+         style="background-image: url('../mainsrc/images/parallax/bg-01.jpg');">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title text-center">
+                    <h3 style="font-size: 26px; font-weight: bold; color: #333;
+                               text-transform: uppercase; border-bottom: 2px solid #007bff;
+                               display: inline-block; padding-bottom: 10px;">蛋白质库</h3>
+                </div>
+
+                <!-- 预设FASTA文件选择区域 -->
+                <div class="col-md-12 mb-4">
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">预设FASTA文件</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                {% for file in fasta_files %}
+                                    <div class="col-md-3 mb-2">
+                                        <button class="btn btn-outline-primary btn-block preset-file-btn"
+                                                data-file-id="{{ file.id }}">
+                                            {{ file.name }}
+                                        </button>
+                                    </div>
+                                {% empty %}
+                                    <div class="col-12">
+                                        <p class="text-muted">暂无预设文件</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 数据表格 -->
+                <div class="col-md-12">
+                    <table id="fastaTable" class="table table-bordered table-striped">
+                        <thead id="tableHeader">
+                        <!-- 表头将动态生成 -->
+                        </thead>
+                        <tbody id="tableBody">
+                        <!-- 表格内容将动态生成 -->
+                        </tbody>
+                    </table>
+                    <div class="pagination" id="pagination" style="margin-top: 20px;">
+                        <!-- 分页按钮会在这里动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="introduction" class="about-us-section-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="section-title text-center">
+                    <h3 style="font-size: 26px; font-weight: bold; color: #333;
+                               text-transform: uppercase; border-bottom: 2px solid #007bff;
+                               display: inline-block; padding-bottom: 10px;">功能介绍</h3>
+                </div>
+            </div>
+            <div class="col-md-6" style="">
+                <div class="skill-shortcode">
+                    <h3>我们使用的数据库——Uniprot</h3>
+                </div>
+                <div>
+                    <p style="font-size: 16px;color: #5c6370;margin-top: 10px;text-align: justify;">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UniProt数据库是全球生命科学领域至关重要的蛋白质信息枢纽，2002年由Swiss - Prot、TrEMBL和PIR - PSD整合而成，由国际权威机构组成的UniProt联盟持续维护，保障数据的持续更新。它宛如一座蛋白质信息的“巨型宝库”，收纳了从微生物到高等动植物等几乎所有生物类别的蛋白质序列，序列数量庞大且持续扩充。同时，它还具备丰富且精准的功能注释，从蛋白质的功能描述、结构域特征，到翻译后修饰位点、亚细胞定位，乃至参与的生物学途径和分子互作关系等信息一应俱全。 该数据库以数据全面性令人瞩目，整合多方资源无遗漏；注释质量更是精益求精，专业团队严格把关。在格式上高度标准化，便于全球科研人员无障碍交流与数据比对。在基础生物学中助力探索生命奥秘，药物研发里靶向关键蛋白，生物信息学研究中为算法提供基石。通过官网在线查询、便捷数据下载及强大编程接口，科研人员可轻松获取所需，极大推动科研进展。
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div id="carousel-example-generic" class="carousel slide about-slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <img src="{% static 'img/myfasta.png' %}" alt="">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-center" style="margin-top: 20px;">
+            <div class="col-md-6">
+                <div class="carousel-container">
+                    <div id="carousel-model" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active" style="margin-top: 10px;">
+                                <img src="../../static/img/myfasta4.png" alt="表征模型">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="content-box" style="margin-top: 15px;">
+                    <h3>我们是如何清洗数据来服务于网站的？</h3>
+                    <p style="font-size: 16px;color: #5c6370;text-align: justify;">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;首先我们从Uniprot的官方网站上选取了6371条蛋白质，以fasta格式的文件下载下来。这些fasta文件中包含蛋白质的Uniprot ID、序列以及其他一些基本信息。但是这些信息还不足以用来构建数据集来训练模型，于是我们使用Uniprot官方提供的API，使用Uniprot ID来从官网上爬取对应的用于模型训练的相关信息，包括EC、GO、Domain以及Function等相关信息，将各种信息按照相关性分开放到不同的表中，每个表都从不同方面描述了蛋白质的信息，包括蛋白质结构信息表、蛋白质功能注释信息表等等。同时根据蛋白质是否有EC编号为判断以及为蛋白质打上是否是酶的标签，处理后作为数据集供模型训练使用。
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<section id="examples" class="latest-news-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title text-center">
+                    <h3 style="font-size: 26px; font-weight: bold; color: #333;
+                               text-transform: uppercase; border-bottom: 2px solid #007bff;
+                               display: inline-block; padding-bottom: 10px;">示例</h3>
+                    <p>我们提供一些典型的搜索结果，以便您快速学习如何使用功能</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="latest-news">
+                <div class="col-md-12">
+                    <div class="latest-post">
+                        <img src="{% static 'images/about-01.jpg' %}" class="img-responsive" alt="">
+                        <h4><a href="#">Image</a></h4>
+                        <div class="post-details">
+                            <span class="date">1</span>
+                        </div>
+                        <p>结果1</p>
+                        <a href="#" class="btn btn-primary">了解详情</a>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="latest-post">
+                        <img src="{% static 'images/about-02.jpg' %}" class="img-responsive" alt="">
+                        <h4><a href="#">Image</a></h4>
+                        <div class="post-details">
+                            <span class="date">2</span>
+                        </div>
+                        <p>结果2</p>
+                        <a href="#" class="btn btn-primary">了解详情</a>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="latest-post">
+                        <img src="{% static 'images/about-03.jpg' %}" class="img-responsive" alt="">
+                        <h4><a href="#">Image</a></h4>
+                        <div class="post-details">
+                            <span class="date">3</span>
+                        </div>
+                        <p>结果3</p>
+                        <a href="#" class="btn btn-primary">了解详情</a>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="latest-post">
+                        <img src="{% static 'images/about-01.jpg' %}" class="img-responsive" alt="">
+                        <h4><a href="#">Image</a></h4>
+                        <div class="post-details">
+                            <span class="date">4</span>
+                        </div>
+                        <p>结果4</p>
+                        <a href="#" class="btn btn-primary">了解详情</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- jQuery Version 2.1.1 -->
+<script src="{% static 'js/jquery-2.1.1.min.js' %}"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="{% static 'asset/js/bootstrap.min.js' %}"></script>
+
+<!-- Plugin JavaScript -->
+<script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+<script src="{% static 'js/classie.js' %}"></script>
+<script src="{% static 'js/count-to.js' %}"></script>
+<script src="{% static 'js/jquery.appear.js' %}"></script>
+<script src="{% static 'js/cbpAnimatedHeader.js' %}"></script>
+<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'js/jquery.fitvids.js' %}"></script>
+<script src="{% static 'js/styleswitcher.js' %}"></script>
+
+<!-- Contact Form JavaScript -->
+<script src="{% static 'js/jqBootstrapValidation.js' %}"></script>
+<script src="{% static 'js/contact_me.js' %}"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="{% static 'js/script.js' %}"></script>
+
+<script>
+    // 预设文件按钮点击事件
+    document.querySelectorAll('.preset-file-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const fileId = this.getAttribute('data-file-id');
+            loadPresetFile(fileId);
+        });
+    });
+
+    // 加载预设文件的函数
+    function loadPresetFile(fileId) {
+        fetch(`/index/get_fasta_content/${fileId}/`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('网络响应不正常');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.error) {
+                    alert('加载文件失败: ' + data.error);
+                    return;
+                }
+
+                // 使用现有的解析函数处理内容
+                parseFastaContent(data.content);
+
+                // 显示正在查看的文件名
+                const fileNameElement = document.createElement('div');
+                console.log(data);
+
+                fileNameElement.className = 'alert alert-success mt-2';
+                fileNameElement.textContent = `当前查看: ${data.filename}`;
+
+                // 移除之前的提示（如果有）
+                const existingAlert = document.querySelector('.alert-success');
+                if (existingAlert) {
+                    existingAlert.remove();
+                }
+
+                // 添加到文件选择区域后面
+                document.querySelector('.card-body').appendChild(fileNameElement);
+            })
+            .catch(error => {
+                console.error('获取文件内容出错:', error);
+                alert('加载文件失败，请稍后再试');
+            });
+    }
+
+    let fastaEntries = [];
+    const itemsPerPage = 10;
+    let currentPage = 1;
+    let headers = ['ID', '描述', '序列'];
+
+    function parseFastaContent(fastaContent) {
+        // 重置数据
+        fastaEntries = [];
+
+        // 按>符号分割FASTA内容
+        const entries = fastaContent.split('>').filter(entry => entry.trim() !== '');
+
+        entries.forEach(entry => {
+            const lines = entry.split('\n');
+            const headerLine = lines[0].trim();
+            const sequence = lines.slice(1).join('').trim();
+
+            // 解析头部信息
+            let parsedHeader = {};
+            parsedHeader['完整描述'] = headerLine;
+
+            // 尝试解析常见的FASTA格式
+            // UniProt格式: >db|accession|name OS=organism GN=gene PE=existence SV=version
+            if (headerLine.includes('|') && headerLine.includes('OS=')) {
+                const parts = headerLine.split('|');
+                if (parts.length >= 3) {
+                    parsedHeader['数据库'] = parts[0];
+                    parsedHeader['登录号'] = parts[1];
+
+                    // 提取蛋白质名称和其他信息
+                    const restParts = parts[2].split(' ');
+                    parsedHeader['蛋白质名称'] = restParts[0];
+
+                    // 尝试提取生物体、基因名等信息
+                    const osMatch = headerLine.match(/OS=([^OX]+)/);
+                    if (osMatch) parsedHeader['生物体'] = osMatch[1].trim();
+
+                    const gnMatch = headerLine.match(/GN=([^PE]+)/);
+                    if (gnMatch) parsedHeader['基因名'] = gnMatch[1].trim();
+
+                    const peMatch = headerLine.match(/PE=(\d+)/);
+                    if (peMatch) parsedHeader['蛋白质存在'] = peMatch[1];
+
+                    const svMatch = headerLine.match(/SV=(\d+)/);
+                    if (svMatch) parsedHeader['序列版本'] = svMatch[1];
+                }
+            }
+            // NCBI格式: >gi|number|db|accession|locus description
+            else if (headerLine.includes('gi|')) {
+                const parts = headerLine.split('|');
+                if (parts.length >= 5) {
+                    parsedHeader['GI号'] = parts[1];
+                    parsedHeader['数据库'] = parts[2];
+                    parsedHeader['登录号'] = parts[3];
+                    parsedHeader['描述'] = parts.slice(4).join('|');
+                }
+            }
+            // 简单格式: >identifier description
+            else {
+                const firstSpace = headerLine.indexOf(' ');
+                if (firstSpace > 0) {
+                    parsedHeader['ID'] = headerLine.substring(0, firstSpace);
+                    parsedHeader['描述'] = headerLine.substring(firstSpace + 1);
+                } else {
+                    parsedHeader['ID'] = headerLine;
+                    parsedHeader['描述'] = '';
+                }
+            }
+
+            // 添加序列
+            parsedHeader['序列'] = sequence;
+
+            fastaEntries.push(parsedHeader);
+        });
+
+        // 根据解析结果动态确定表头
+        determineHeaders();
+        renderTable();
+        renderPagination();
+    }
+
+    function determineHeaders() {
+        if (fastaEntries.length === 0) return;
+
+        // 收集所有可能的表头
+        const allKeys = new Set();
+        fastaEntries.forEach(entry => {
+            Object.keys(entry).forEach(key => allKeys.add(key));
+        });
+
+        // 优先显示的字段顺序
+        const priorityFields = ['ID', '登录号', '蛋白质名称', '描述', '生物体', '基因名', '蛋白质存在', '序列版本', '序列'];
+
+        // 根据优先级排序表头
+        headers = priorityFields.filter(field => allKeys.has(field));
+
+        // 添加其他未包含的字段
+        allKeys.forEach(key => {
+            if (!headers.includes(key) && key !== '完整描述') { // 排除完整描述，通常太长
+                headers.push(key);
+            }
+        });
+
+        // 确保序列总是最后一列
+        if (headers.includes('序列')) {
+            headers = headers.filter(h => h !== '序列');
+            headers.push('序列');
+        }
+
+        // 渲染表头
+        const tableHeader = document.getElementById('tableHeader');
+        tableHeader.innerHTML = '';
+        const headerRow = document.createElement('tr');
+
+        headers.forEach(header => {
+            const th = document.createElement('th');
+            th.textContent = header;
+            headerRow.appendChild(th);
+        });
+
+        tableHeader.appendChild(headerRow);
+    }
+
+    function renderTable() {
+        const tableBody = document.getElementById('tableBody');
+        tableBody.innerHTML = ''; // 清空现有数据
+
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = Math.min(startIndex + itemsPerPage, fastaEntries.length);
+        const pageItems = fastaEntries.slice(startIndex, endIndex);
+
+        pageItems.forEach(entry => {
+            const row = document.createElement('tr');
+
+            headers.forEach(header => {
+                const cell = document.createElement('td');
+                cell.textContent = entry[header] || '';
+
+                // 为序列列添加特殊样式
+                if (header === '序列') {
+                    cell.style.maxWidth = '150px';
+                    cell.style.whiteSpace = 'nowrap';
+                    cell.style.overflowX = 'auto';
+                    cell.style.display = 'block';
+                }
+
+                row.appendChild(cell);
+            });
+
+            tableBody.appendChild(row);
+        });
+    }
+
+    function renderPagination() {
+        const paginationContainer = document.getElementById('pagination');
+        paginationContainer.innerHTML = ''; // 清空现有分页按钮
+
+        const totalPages = Math.ceil(fastaEntries.length / itemsPerPage);
+        if (totalPages === 0) return; // 如果没有数据，直接返回
+
+        // 添加 "第一页" 按钮
+        const firstButton = document.createElement('button');
+        firstButton.textContent = '首页';
+        firstButton.disabled = currentPage === 1;
+        firstButton.classList.toggle('disabled', currentPage === 1);
+        firstButton.addEventListener('click', function () {
+            currentPage = 1;
+            renderTable();
+            renderPagination();
+        });
+        paginationContainer.appendChild(firstButton);
+
+        const prevButton = document.createElement('button');
+        prevButton.textContent = '上一页';
+        prevButton.disabled = currentPage === 1;
+        prevButton.classList.toggle('disabled', currentPage === 1);
+        prevButton.addEventListener('click', function () {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable();
+                renderPagination();
+            }
+        });
+        paginationContainer.appendChild(prevButton);
+
+        const pageButtons = [];
+        const maxPageButtons = 5; // 显示最多 5 个页面
+        let startPage = Math.max(1, currentPage - 2);
+        let endPage = Math.min(totalPages, currentPage + 2);
+
+        if (startPage > 1) {
+            pageButtons.push('...');
+        }
+        for (let i = startPage; i <= endPage; i++) {
+            pageButtons.push(i);
+        }
+        if (endPage < totalPages) {
+            pageButtons.push('...');
+        }
+
+        pageButtons.forEach(function (pageButton) {
+            const button = document.createElement(pageButton === '...' ? 'span' : 'button');
+            if (pageButton === '...') {
+                button.textContent = pageButton;
+            } else {
+                button.textContent = pageButton;
+                button.disabled = currentPage === pageButton;
+                button.classList.toggle('disabled', currentPage === pageButton);
+                button.addEventListener('click', function () {
+                    currentPage = pageButton;
+                    renderTable();
+                    renderPagination();
+                });
+            }
+            paginationContainer.appendChild(button);
+        });
+
+        const nextButton = document.createElement('button');
+        nextButton.textContent = '下一页';
+        nextButton.disabled = currentPage === totalPages;
+        nextButton.classList.toggle('disabled', currentPage === totalPages);
+        nextButton.addEventListener('click', function () {
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTable();
+                renderPagination();
+            }
+        });
+        paginationContainer.appendChild(nextButton);
+
+        // 添加 "最后一页" 按钮
+        const lastButton = document.createElement('button');
+        lastButton.textContent = '末页';
+        lastButton.disabled = currentPage === totalPages;
+        lastButton.classList.toggle('disabled', currentPage === totalPages);
+        lastButton.addEventListener('click', function () {
+            currentPage = totalPages;
+            renderTable();
+            renderPagination();
+        });
+        paginationContainer.appendChild(lastButton);
+    }
+</script>
+
+
+</body>
+
+</html>

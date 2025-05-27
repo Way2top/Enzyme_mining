@@ -1,0 +1,9 @@
+data_path: data/raw/protein_data.csv
+model_path: models/protein_classifier.pth
+library_features_path: data/processed/library_features.npy
+input_dim: 480  # 表征维度为480
+hidden_dim1: 512
+hidden_dim2: 256
+batch_size: 32
+learning_rate: 0.001
+num_epochs: 70

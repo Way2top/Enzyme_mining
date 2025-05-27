@@ -1,0 +1,759 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Search model</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'asset/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+    <!-- Animate CSS -->
+    <link href="{% static 'css/animate.css' %}" rel="stylesheet">
+    <!-- Owl-Carousel -->
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.transitions.css' %}">
+    <!-- Custom CSS -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/responsive.css' %}" rel="stylesheet">
+    <!-- Colors CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/green.css' %}">
+    <!-- Colors CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/green.css' %}" title="green">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/light-red.css' %}" title="light-red">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/blue.css' %}" title="blue">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/light-blue.css' %}" title="light-blue">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/yellow.css' %}" title="yellow">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/light-green.css' %}" title="light-green">
+    <!-- Custom Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <!-- Modernizer js -->
+    <script src="{% static 'js/modernizr.custom.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .page-scroll {
+            font-size: 18px;
+        }
+
+        .navbar-default .nav li a {
+            font-size: 14px !important;
+        }
+
+        #page-top {
+            position: relative;
+            height: 100vh;
+            background-image: url('../../static/img/enzyme3.jpg');
+            /* 设置背景图片 */
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            padding: 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        #page-top .carousel-inner {
+            position: relative;
+            z-index: 10001;
+        }
+
+        #page-top .carousel-item {
+            height: 100vh;
+            /* 保证每个轮播项的高度为视口高度 */
+        }
+
+        #page-top .carousel-item img {
+            object-fit: cover;
+            /* 确保图片填充并保持比例 */
+            height: 100%;
+            /* 强制图片占满轮播项的高度 */
+            width: 100%;
+        }
+
+        .search-container {
+            text-align: center;
+            background-color: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        .search-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            /*background-color: rgba(8, 46, 84, 0.2);*/
+            background-color: rgba(255, 255, 255, 0);
+            padding: 10px;
+            border-radius: 30px;
+            width: 500px;
+            opacity: 0;
+            /* 初始状态隐藏 */
+            transform: translateY(20px);
+            /* 向下偏移，增加动画效果 */
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .search-box input {
+            width: 80%;
+            padding: 12px;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .search-box button {
+            /*background-color: #abe0ff;*/
+            background-color: #51b4ff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .search-box button:hover {
+            background-color: #1f8eff;
+        }
+
+        .search-container h1 {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        .result {
+            background: linear-gradient(135deg, #e2ebff, #b0c7ff);
+            /* 渐变背景色 */
+            padding: 20px;
+            border-radius: 12px;
+            /* 增加圆角 */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1), 0 4px 16px rgba(0, 0, 0, 0.15);
+            /* 更强烈的阴影效果 */
+            transition: all 0.3s ease;
+            /* 增加过渡效果 */
+        }
+
+        .result:hover {
+            transform: scale(1.02);
+            /* 鼠标悬停时稍微放大 */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), 0 8px 24px rgba(0, 0, 0, 0.2);
+            /* 放大阴影效果 */
+        }
+
+        .title-container {
+            text-align: center;
+            /* 让 h3 居中 */
+        }
+
+
+        .centered-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            text-transform: uppercase;
+            display: inline-block;
+            /* 让内容宽度与文本匹配 */
+            position: relative;
+            /* 让伪元素相对 h3 定位 */
+            padding-bottom: 8px;
+            border-bottom: 2px solid #007bff;
+        }
+
+        #loadingMessage {
+            font-size: 16px;
+            color: #5f7fbb;
+            text-align: center;
+            font-style: italic;
+            margin-top: 20px;
+            opacity: 0.8;
+            /* 让提示信息看起来更柔和 */
+        }
+
+        .loading-message {
+            font-size: 18px;
+        }
+
+        /* 样式化表格 */
+        .protein-matrix {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        /* 表头样式 */
+        .protein-matrix thead {
+            background-color: #abe0ff;
+            color: white;
+        }
+
+        /* 表格单元格样式 */
+        .protein-matrix th,
+        .protein-matrix td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        /* 行悬停效果 */
+        .protein-matrix tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* 设置奇偶行不同背景色，增强可读性 */
+        .protein-matrix tbody tr:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+
+        .protein-matrix tbody tr:nth-child(even) {
+            background-color: #ffffff;
+        }
+
+        /* 表格容器的内边距 */
+        .result-container {
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .dropdown-menu li a {
+            color: black !important;
+        }
+
+        .dropdown-menu li a:hover {
+            color: #7ad6ff !important;
+        }
+
+        /* 响应式设计: 在屏幕小于600px时，表格宽度可自适应 */
+        @media (max-width: 600px) {
+            .protein-matrix {
+                font-size: 14px;
+            }
+
+            .protein-matrix th,
+            .protein-matrix td {
+                padding: 8px;
+            }
+        }
+
+        .section-title {
+            margin-bottom: 30px;
+        }
+
+        .content-section {
+            padding: 50px 0;
+        }
+
+        .content-box {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel img {
+            border-radius: 10px;
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        h3 {
+            color: #333;
+            font-size: 22px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.8;
+        }
+    </style>
+
+
+</head>
+
+
+<body class="index">
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">Enzyme</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="{% url 'page1' %}">首页 </a>
+                    </li>
+                    <li><a class="page-scroll" href="{% url 'importdatabase' %}">导入蛋白质数据</a></li>
+                    <li><a class="page-scroll" href="{% url 'page2' %}">表征模型</a></li>
+                    <li><a class="page-scroll" href="{% url 'similarenzyme' %}">酶挖掘</a></li>
+                    <li><a class="page-scroll" href="{% url 'dataanalysis' %}">蛋白质信息可视化</a></li>
+                    <li><a class="page-scroll" href="{% url 'enzymemodel' %}">蛋白质3D模型</a></li>
+                    <li><a class="page-scroll" href="{% url 'about' %}">蛋白质数据库</a></li>
+
+
+                    <li>
+                       <a href="http://127.0.0.1:8000/admin_ls/" style="margin-left: 30px;">管理员登录</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+
+    <section id="page-top">
+        <div id="main-slide" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="item active">
+                    <!--
+                <img class="img-responsive" src="../../static/img/enzyme3.jpg" alt="slider">
+                -->
+                    <div class="slider-content">
+                        <div class="col-md-12 text-center"
+                            style="display: flex; flex-direction: column; align-items: center;">
+                            <h1 class="animated3">
+                                <span>搜索<strong>表征模型</strong></span>
+                            </h1>
+                            <p class="animated2">输入蛋白质序列，我们将会提供当前蛋白质的表征模型（矩阵）</p>
+                            <div class="search-box" style="">
+                                <input type="text" id="search-input" placeholder="请输入蛋白质序列..."
+                                    style="color: black !important;">
+                                <button onclick="search()">提取</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="result" class="result"
+        style="height: auto;background-image: url('../mainsrc/images/parallax/bg-01.jpg');">
+        <div class="result-container">
+            <div class="title-container">
+                <h3 class="centered-title">搜索结果</h3>
+            </div>
+            <div id="loadingMessage" class="loading-message">尚无搜索结果，请输入蛋白质序列进行搜索</div>
+            <div id="echart" style="display: none; width: 1000px; height: 1000px; margin: 0 auto;">
+
+            </div>
+            <table id="proteinMatrix" class="protein-matrix" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Feature Vector</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dynamic rows will be inserted here -->
+                </tbody>
+            </table>
+            <button id="showAllBtn" style="display: none;">显示全部</button>
+            <div class="text-right" style="margin-top: 20px;">
+                <button id="copyBtn" class="btn btn-primary"
+                    style="font-size: 16px; padding: 10px 20px;margin-right: 20px;width: 90px;">复制</button>
+                <a href="{% url 'similarenzyme' %}" class="btn btn-primary"
+                    style="font-size: 16px; padding: 10px 20px;margin-right:50px;">
+                    下一步
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div id="introduction" class="content-section">
+        <div class="container">
+            <div class="section-title text-center">
+                <h3 style="font-size: 26px; font-weight: bold; color: #333;
+                               text-transform: uppercase; border-bottom: 2px solid #007bff;
+                               display: inline-block; padding-bottom: 10px;">
+                    功能介绍
+                </h3>
+            </div>
+
+            <div class="row align-items-center mb-5">
+                <div class="col-md-6">
+                    <div class="content-box">
+                        <h3>什么是蛋白质序列？</h3>
+                        <p style="text-align: justify;">
+                            蛋白质序列指的是蛋白质分子中氨基酸的排列顺序。蛋白质是由20种不同的氨基酸通过肽键连接而成的高分子化合物，在生物体内承担多种重要功能。
+                            <br><strong>1. 氨基酸组成：</strong>蛋白质由20种标准氨基酸组成，如丙氨酸(Ala, A)、精氨酸(Arg, R)等。
+                            <br><strong>2. 序列的表示：</strong>通常使用单字母代码表示蛋白质序列。
+                            <br><strong>3. 序列与功能：</strong>蛋白质的序列决定其三维结构，进而影响功能。
+                            <br><strong>4. 序列测定：</strong>实验方法如Edman降解法、质谱法等。
+                            <br><strong>5. 序列分析：</strong>通过序列比对，科学家可以研究蛋白质的进化关系和功能预测。
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="carousel-container">
+                        <div id="carousel-sequence" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="../../static/img/sequence2.png" alt="蛋白质序列">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row align-items-center" style="margin-top: 20px;">
+                <div class="col-md-6">
+                    <div class="carousel-container">
+                        <div id="carousel-model" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="../../static/img/model1.png" alt="表征模型">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="content-box">
+                        <h3>什么是表征模型？</h3>
+                    <p style="text-align: justify;">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;蛋白质的表征模型是一种通过特定方式对蛋白质的结构、功能、性质等特征进行描述和表示的模型，它旨在将蛋白质复杂的信息简化和抽象为便于理解、分析与计算的形式，例如通过氨基酸序列、二级结构元件、三维空间结构坐标、物理化学性质参数以及功能注释等多种方式来表征蛋白质，以便在生物信息学、结构生物学、药物设计等领域中，帮助研究人员更好地认识蛋白质，预测其功能，探究其与其他分子的相互作用，以及理解相关的生物过程和疾病机制等。
+                    </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <section id="examples" class="latest-news-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section-title text-center">
+                        <h3 style="font-size: 26px; font-weight: bold; color: #333;
+                               text-transform: uppercase; border-bottom: 2px solid #007bff;
+                               display: inline-block; padding-bottom: 10px;">搜索示例</h3>
+                        <p>我们提供一些典型的搜索结果，以便您快速学习如何使用功能</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="latest-news">
+                    <div class="col-md-12">
+                        <div class="latest-post">
+                            <img src="{% static 'img/step2.1.png' %}" class="img-responsive" alt="">
+                            <div class="post-details">
+                                <span class="date">1</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="latest-post">
+                            <img src="{% static 'img/step2.2.png' %}" class="img-responsive" alt="">
+                            <div class="post-details">
+                                <span class="date">2</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="latest-post">
+                            <img src="{% static 'img/step2.3.png' %}" class="img-responsive" alt="">
+                            <div class="post-details">
+                                <span class="date">3</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- jQuery Version 2.1.1 -->
+    <script src="{% static 'js/jquery-2.1.1.min.js' %}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'asset/js/bootstrap.min.js' %}"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+    <script src="{% static 'js/classie.js' %}"></script>
+    <script src="{% static 'js/count-to.js' %}"></script>
+    <script src="{% static 'js/jquery.appear.js' %}"></script>
+    <script src="{% static 'js/cbpAnimatedHeader.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/jquery.fitvids.js' %}"></script>
+    <script src="{% static 'js/styleswitcher.js' %}"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="{% static 'js/jqBootstrapValidation.js' %}"></script>
+    <script src="{% static 'js/contact_me.js' %}"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="{% static 'js/script.js' %}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            setTimeout(function () {
+                let searchBox = document.querySelector(".search-box");
+                searchBox.style.opacity = "1";
+                searchBox.style.transform = "translateY(0)"; // 复位动画
+            }, 500); // 500ms 后执行动画
+        });
+    </script>
+
+    <script>
+        let featureVectors = [];
+        let rowsToDisplay = 15;
+        let currentRow = 0;
+        let responseData = null; // 存储API返回的数据
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let cookie of cookies) {
+                    cookie = cookie.trim();
+                    if (cookie.startsWith(name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // 搜索功能，发送请求到后端
+        function search() {
+            var query = document.getElementById('search-input').value;
+            const csrftoken = getCookie('csrftoken');
+            if (query.trim() !== "") {
+                // 显示加载信息
+                document.getElementById('loadingMessage').textContent = '正在搜索中...';
+
+                // 发送查询到后端，API
+                fetch('/search/api/martix/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken
+                    },
+                    body: JSON.stringify({ query: query })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // 保存API返回的数据
+                        document.getElementById('loadingMessage').textContent = '搜索完成';
+                        responseData = data;
+                        
+                        if (data.success) {
+                            console.log('data', data);
+                            featureVectors = data.featureVectors;
+                            console.log('featureVectors', featureVectors);
+                            let featureVectorsdata = [];
+                            for (let i = 0; i < featureVectors.length; i++) {
+                                for (let j = 0; j < featureVectors[i].length; j++) {
+                                    featureVectorsdata.push([j, i, featureVectors[i][j]]); // 每个点的 x, y, 值
+                                }
+                            }
+                            responseData = featureVectorsdata;
+                            let minValue = Math.min(...featureVectorsdata.map(item => item[2]));
+                            let maxValue = Math.max(...featureVectorsdata.map(item => item[2]));
+
+
+                            // 2. 初始化 ECharts 实例
+                            let myChart = echarts.init(document.getElementById('echart'));
+
+                            // 3. 设置热力图的配置项
+                            let option = {
+                                tooltip: {
+                                    position: 'top',
+                                    formatter: function (params) {
+                                        return `x: ${params.data[0]}, y: ${params.data[1]}<br>value: ${params.data[2].toFixed(4)}`; // 显示完整数值
+                                    }
+                                },
+                                grid: {
+                                    top: '3%',
+                                    left: '3%',
+                                    right: '3%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    data: Array.from({ length: featureVectors[0].length }, (_, i) => i), // x 轴对应每列的索引
+                                    splitArea: { show: true }
+                                },
+                                yAxis: {
+                                    type: 'category',
+                                    data: Array.from({ length: featureVectors.length }, (_, i) => i), // y 轴对应每行的索引
+                                    splitArea: { show: true }
+                                },
+                                visualMap: {
+                                    min: 0,
+                                    max: 1,
+                                    calculable: true,
+                                    orient: 'horizontal',
+                                    left: 'center',
+                                    bottom: '5%',
+                                    inRange: {
+                                        {#color: ['#f0f0f0', '#ccece6', '#99d8c9', '#66c2a4', '#2ca25f', '#006d2c']#}
+color: ['#c3e8c3', '#65bf65', '#34d134', '#05833c']
+                                    }
+                                },
+
+                                series: [{
+                                    name: 'Heatmap',
+                                    type: 'heatmap',
+                                    data: featureVectorsdata,
+                                    label: {
+                                        show: true,
+                                        position: 'inside',
+                                        color: '#333',   // ✅ 黑字 / 深灰字，更清晰
+                                        fontSize: 10,
+                                        formatter: function (params) {
+                                            return params.data[2].toFixed(3);
+                                        }
+                                    },
+
+                                    itemStyle: {
+                                        borderColor: '#fff',
+                                        borderWidth: 1
+                                    },
+                                    emphasis: {
+                                        itemStyle: {
+                                            shadowBlur: 10,
+                                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                        }
+                                    }
+                                }]
+                            };
+
+                            // 4. 使用配置项渲染图表
+                            myChart.setOption(option);
+
+                            // 如果数据加载完成后显示加载动画，可以根据需求更新显示的样式
+                            document.getElementById('echart').style.display = 'block'; // 显示热力图
+                            // 显示复制按钮
+                            document.getElementById('copyBtn').style.display = 'inline-block';
+                            document.getElementById('loadingMessage').textContent = '搜索完成';
+                        } else {
+                            alert('搜索失败，请稍后再试。');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('发生错误:', error);
+                        alert('网络错误，请稍后再试。');
+                        document.getElementById('loadingMessage').textContent = '加载数据失败，请稍后再试。';
+                    });
+            } else {
+                alert("请输入蛋白质序列！");
+            }
+        }
+
+        // 渲染表格数据
+        function renderTable() {
+            const tbody = document.querySelector('#proteinMatrix tbody');
+            tbody.innerHTML = '';  // 清空当前表格内容
+
+            for (let i = currentRow; i < currentRow + rowsToDisplay && i < featureVectors.length; i++) {
+                const row = document.createElement('tr');
+                featureVectors[i].forEach(value => {
+                    const cell = document.createElement('td');
+                    cell.textContent = value.toFixed(2); // 格式化数字保留两位小数
+                    row.appendChild(cell);
+                });
+                tbody.appendChild(row);
+            }
+
+            // 显示表格和"显示全部"按钮
+            document.getElementById('proteinMatrix').style.display = 'table';
+            document.getElementById('showAllBtn').style.display = 'block';
+        }
+
+        // 显示全部数据
+        function showAll() {
+            rowsToDisplay = featureVectors.length;
+            renderTable();
+            document.getElementById('showAllBtn').style.display = 'none';
+        }
+
+        // "显示全部"按钮事件
+        document.getElementById('showAllBtn').addEventListener('click', showAll);
+
+        // 复制按钮功能实现
+        document.getElementById('copyBtn').addEventListener('click', function() {
+    if (responseData && Array.isArray(responseData)) {
+        // 提取嵌套数组中每个子数组的第三个元素（单元格数值数据）
+        let values = responseData.map(item => item[2]);
+
+        // 去除最后三个0
+        if (values.length >= 3 && values.slice(-3).every(val => val === 0)) {
+            values = values.slice(0, -3);
+        }
+
+        // 将数据转换为JSON字符串
+        const dataStr = JSON.stringify(values, null, 2);
+
+        // 创建一个临时textarea元素用于复制
+        const textarea = document.createElement('textarea');
+        textarea.value = dataStr;
+        document.body.appendChild(textarea);
+        textarea.select();
+
+        try {
+            // 执行复制命令
+            const successful = document.execCommand('copy');
+            if (successful) {
+                alert('数据已成功复制到剪贴板！');
+            } else {
+                alert('复制失败，请手动复制。');
+            }
+        } catch (err) {
+            console.error('复制操作出错:', err);
+            alert('复制操作出错，请手动复制。');
+        }
+
+        // 移除临时元素
+        document.body.removeChild(textarea);
+    } else {
+        alert('没有可复制的数据，请先进行搜索！');
+    }
+});
+    </script>
+
+
+</body>
+
+</html>

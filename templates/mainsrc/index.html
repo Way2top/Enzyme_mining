@@ -1,0 +1,558 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>酶挖掘</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+    <!-- Animate CSS -->
+    <link href="{% static 'css/animate.css' %}" rel="stylesheet">
+    <!-- Owl-Carousel -->
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.transitions.css' %}">
+    <!-- Custom CSS -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/responsive.css' %}" rel="stylesheet">
+    <!-- Colors CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/green.css' %}">
+    <!-- Custom Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+    <!-- Modernizer js -->
+    <script src="{% static 'js/modernizr.custom.js' %}"></script>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="index">
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">Enzyme</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#feature">项目简介</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#search">搜索</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#results">搜索结果</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#about-us">关于我们</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#examples">搜索示例</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#contact">联系我们</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'login' %}" style="margin-left: 30px;">登录</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'login' %}">
+                            <img src="{% static 'img/me.png' %}" style="width: 30px;height:30px;overflow: hidden;" />
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <!-- Start Home Page Slider -->
+    <section id="page-top">
+        <!-- Carousel -->
+        <div id="main-slide" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#main-slide" data-slide-to="0" class="active"></li>
+                <li data-target="#main-slide" data-slide-to="1"></li>
+                <li data-target="#main-slide" data-slide-to="2"></li>
+            </ol>
+            <!-- Carousel inner -->
+            <div class="carousel-inner">
+                <div class="item active">
+                    <img class="img-responsive" src="{% static 'images/header-bg-1.jpg' %}" alt="slider">
+                    <div class="slider-content">
+                        <div class="col-md-12 text-center">
+                            <h1 class="animated3">
+                                <span><strong>Enzyme</strong> mining</span>
+                            </h1>
+                            <p class="animated2">基于蛋白质表征模型的酶挖掘工程</p>
+                            <a href="#feature" class="page-scroll btn btn-primary animated1">了解更多</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Carousel item end -->
+                <div class="item">
+                    <img class="img-responsive" src="{% static 'images/header-back.png' %}" alt="slider">
+                    <div class="slider-content">
+                        <div class="col-md-12 text-center">
+                            <h1 class="animated1">
+                                <span>Welcome to <strong>Enzyme</strong></span>
+                            </h1>
+                            <p class="animated2">这是一个基于大型蛋白质数据库<br>对于酶进行挖掘的网站</p>
+                            <a href="#feature" class="page-scroll btn btn-primary animated3">了解更多</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Carousel item end -->
+                <div class="item">
+                    <img class="img-responsive" src="{% static 'images/galaxy.jpg' %}" alt="slider">
+                    <div class="slider-content">
+                        <div class="col-md-12 text-center">
+                            <h1 class="animated2">
+                                <span>Usage</span>
+                            </h1>
+                            <p class="animated1">
+                                任何人都可以搜索任何具有特定或模糊序列的蛋白质或酶,以了解有关它们的更多信息
+                                <br>还可以了解蛋白质及其模型的背景知识和我们所使用的算法和数据库
+                            </p>
+                            <a class="animated3 slider btn btn-primary btn-min-block page-scroll"
+                                href="#search">立即开始</a>
+                            <a class="animated3 slider btn btn-default btn-min-block page-scroll"
+                                href="#examples">关于如何使用</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Carousel item end -->
+            </div>
+            <!-- Carousel inner end -->
+            <!-- Controls -->
+            <a class="left carousel-control" href="#main-slide" data-slide="prev">
+                <span><i class="fa fa-angle-left"></i></span>
+            </a>
+            <a class="right carousel-control" href="#main-slide" data-slide="next">
+                <span><i class="fa fa-angle-right"></i></span>
+            </a>
+        </div>
+        <!-- /carousel -->
+    </section>
+    <!-- End Home Page Slider -->
+
+    <!-- Start Feature Section -->
+    <section id="feature" class="feature-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="feature">
+                        <a href="page1">
+                            <i class="fa fa-magic">
+                            </i></a>
+                        <div class="feature-content">
+                            <h4>蛋白质序列</h4>
+                            <p>关于蛋白质序列的介绍……</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-md-3 -->
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="feature">
+                        <a href="page2"><i class="fa fa-gift"></i>
+                        </a>
+                        <div class="feature-content">
+                            <h4>蛋白质表征模型</h4>
+                            <p>关于蛋白质表征模型的介绍……</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-md-3 -->
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="feature">
+                        <a href="page3"><i class="fa fa-wordpress"></i>
+                        </a>
+                        <div class="feature-content">
+                            <h4>酶</h4>
+                            <p>关于酶的介绍……</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-md-3 -->
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="feature">
+                        <a href="page4"><i class="fa fa-plug"></i>
+                        </a>
+                        <div class="feature-content">
+                            <h4>PSSM矩阵</h4>
+                            <p>关于PSSM矩阵的介绍……</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </section>
+    <!-- End Feature Section -->
+
+    <!-- Start Call to Action Section -->
+    <section class="call-to-action" id="search">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>搜索蛋白质来进行酶挖掘</h1>
+                    <button type="submit" class="btn btn-primary">搜索</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Call to Action Section -->
+
+    <!-- Start Portfolio Section -->
+    <section id="results" class="portfolio-section-1">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section-title text-center">
+                        <h3>搜索结果</h3>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Portfolio Section -->
+
+    <!-- Start Portfolio Modal Section -->
+    <div class="section-modal modal fade" id="portfolio-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="section-title text-center">
+                        <h3>Portfolio Details</h3>
+                        <p>Duis aute irure dolor in reprehenderit in voluptate</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <img src="{% static 'images/portfolio/img1.jpg' %}" class="img-responsive" alt="..">
+                    </div>
+                    <div class="col-md-6">
+                        <img src="{% static 'images/portfolio/img1.jpg' %}" class="img-responsive" alt="..">
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+        </div>
+    </div>
+    <!-- End Portfolio Modal Section -->
+
+    <!-- Start About Us Section -->
+    <section id="about-us" class="about-us-section-1">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div class="section-title text-center">
+                        <h3>关于我们</h3>
+                        <p>来自ECUST本科的团队</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="welcome-section text-center">
+                        <img src="{% static 'images/about-01.jpg' %}" class="img-responsive" alt="..">
+                        <h4>1</h4>
+                        <div class="border"></div>
+                        <p>111</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="welcome-section text-center">
+                        <img src="{% static 'images/about-02.jpg' %}" class="img-responsive" alt="..">
+                        <h4>2</h4>
+                        <div class="border"></div>
+                        <p>222</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="welcome-section text-center">
+                        <img src="{% static 'images/about-03.jpg' %}" class="img-responsive" alt="..">
+                        <h4>3</h4>
+                        <div class="border"></div>
+                        <p>333</p>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </section>
+    <!-- End About Us Section -->
+
+    <!-- Start About Us Section 2 -->
+    <div class="about-us-section-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div class="section-title text-center">
+                        <h3>技术实现</h3>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="skill-shortcode">
+                        <!-- Progress Bar -->
+                        <div class="skill">
+                            <p>html</p>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" data-percentage="60">
+                                    <span class="progress-bar-span">60%</span>
+                                    <span class="sr-only">60% Complete</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Progress Bar -->
+                        <div class="skill">
+                            <p>CSS</p>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" data-percentage="95">
+                                    <span class="progress-bar-span">95%</span>
+                                    <span class="sr-only">95% Complete</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Progress Bar -->
+                        <div class="skill">
+                            <p>JS</p>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" data-percentage="80">
+                                    <span class="progress-bar-span">80%</span>
+                                    <span class="sr-only">80% Complete</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Progress Bar -->
+                        <div class="skill">
+                            <p>Python</p>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" data-percentage="100">
+                                    <span class="progress-bar-span">100%</span>
+                                    <span class="sr-only">100% Complete</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Progress Bar -->
+                        <div class="skill">
+                            <p>Others</p>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" data-percentage="70">
+                                    <span class="progress-bar-span">70%</span>
+                                    <span class="sr-only">70% Complete</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div id="carousel-example-generic" class="carousel slide about-slide" data-ride="carousel">
+                        <!-- Indicators -->
+                        <ol class="carousel-indicators">
+                            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                        </ol>
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner">
+                            <div class="item active">
+                                <img src="{% static 'images/about-01.jpg' %}" alt="">
+                            </div>
+                            <div class="item">
+                                <img src="{% static 'images/about-02.jpg' %}" alt="">
+                            </div>
+                            <div class="item">
+                                <img src="{% static 'images/about-03.jpg' %}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End About Us Section 2 -->
+
+    <!-- Start Fun Facts Section -->
+    <section class="fun-facts">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <div class="counter-item">
+                        <i class="fa fa-cloud-upload"></i>
+                        <div class="timer" id="item1" data-to="991" data-speed="5000"></div>
+                        <h5>上传蛋白质的数量</h5>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <div class="counter-item">
+                        <i class="fa fa-check"></i>
+                        <div class="timer" id="item2" data-to="7394" data-speed="5000"></div>
+                        <h5>完成搜索次数</h5>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <div class="counter-item">
+                        <i class="fa fa-code"></i>
+                        <div class="timer" id="item3" data-to="18745" data-speed="5000"></div>
+                        <h5>代码行数</h5>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <div class="counter-item">
+                        <i class="fa fa-male"></i>
+                        <div class="timer" id="item4" data-to="8423" data-speed="5000"></div>
+                        <h5>用户体量</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Fun Facts Section -->
+
+    <!-- Start Latest News Section -->
+    <section id="examples" class="latest-news-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section-title text-center">
+                        <h3>搜索示例</h3>
+                        <p>我们提供一些已完成的典型搜索结果，以便您快速学习如何使用酶挖掘功能</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="latest-news">
+                    <div class="col-md-12">
+                        <div class="latest-post">
+                            <img src="{% static 'images/about-01.jpg' %}" class="img-responsive" alt="">
+                            <h4><a href="#">Image</a></h4>
+                            <div class="post-details">
+                                <span class="date"><strong>1</strong></span>
+                            </div>
+                            <p>结果1</p>
+                            <a href="#" class="btn btn-primary">了解详情</a>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="latest-post">
+                            <img src="{% static 'images/about-02.jpg' %}" class="img-responsive" alt="">
+                            <h4><a href="#">Image</a></h4>
+                            <div class="post-details">
+                                <span class="date"><strong>2</strong></span>
+                            </div>
+                            <p>结果2</p>
+                            <a href="#" class="btn btn-primary">了解详情</a>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="latest-post">
+                            <img src="{% static 'images/about-03.jpg' %}" class="img-responsive" alt="">
+                            <h4><a href="#">Image</a></h4>
+                            <div class="post-details">
+                                <span class="date"><strong>3</strong></span>
+                            </div>
+                            <p>结果3</p>
+                            <a href="#" class="btn btn-primary">了解详情</a>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="latest-post">
+                            <img src="{% static 'images/about-01.jpg' %}" class="img-responsive" alt="">
+                            <h4><a href="#">Image</a></h4>
+                            <div class="post-details">
+                                <span class="date"><strong>4</strong></span>
+                            </div>
+                            <p>结果4</p>
+                            <a href="#" class="btn btn-primary">了解详情</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Latest News Section -->
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title text-center">
+                        <h3>联系我们</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 20px;">
+                <div class="col-md-4">
+                    <div class="footer-contact-info">
+                        <h4>我们的信息</h4>
+                        <ul>
+                            <li><strong>邮箱:</strong></li>
+                            <li><strong>电话：</strong></li>
+                            <li><strong>姓名：</strong></li>
+                            <li><strong>网址：</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="style-1">
+            <span style="margin-left: 1300px;color: #9acfea;">感谢支持！</span>
+        </footer>
+    </section>
+
+    <!-- jQuery Version 2.1.1 -->
+    <script src="{% static 'js/jquery-2.1.1.min.js' %}"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!-- Plugin JavaScript -->
+    <script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+    <script src="{% static 'js/classie.js' %}"></script>
+    <script src="{% static 'js/count-to.js' %}"></script>
+    <script src="{% static 'js/jquery.appear.js' %}"></script>
+    <script src="{% static 'js/cbpAnimatedHeader.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/jquery.fitvids.js' %}"></script>
+    <script src="{% static 'js/styleswitcher.js' %}"></script>
+    <!-- Contact Form JavaScript -->
+    <script src="{% static 'js/jqBootstrapValidation.js' %}"></script>
+    <script src="{% static 'js/contact_me.js' %}"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+
+</html>

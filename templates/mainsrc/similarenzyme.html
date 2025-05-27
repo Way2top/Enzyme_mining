@@ -1,0 +1,1393 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Search Similar Enzyme</title>
+    <!-- 添加ECharts库 -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'asset/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+    <!-- Animate CSS -->
+    <link href="{% static '' %}css/animate.css" rel="stylesheet">
+    <!-- Owl-Carousel -->
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.transitions.css' %}">
+    <!-- Custom CSS -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/responsive.css' %}" rel="stylesheet">
+    <!-- Colors CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/green.css' %}">
+    <!-- Colors CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/green.css' %}" title="green">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/light-red.css' %}" title="light-red">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/blue.css' %}" title="blue">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/light-blue.css' %}" title="light-blue">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/yellow.css' %}" title="yellow">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/light-green.css' %}" title="light-green">
+    <!-- Custom Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <!-- Modernizer js -->
+    <script src="{% static 'js/modernizr.custom.js' %}"></script>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .page-scroll {
+            font-size: 18px;
+        }
+
+        .navbar-default .nav li a {
+            font-size: 14px !important;
+        }
+
+        #page-top {
+            position: relative;
+            height: 100vh;
+            background-image: url('../../static/img/enzyme5.jpg');
+            /* 设置背景图片 */
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            padding: 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        #page-top .carousel-inner {
+            position: relative;
+            z-index: 10001;
+        }
+
+        #page-top .carousel-item {
+            height: 100vh;
+            /* 保证每个轮播项的高度为视口高度 */
+        }
+
+        #page-top .carousel-item img {
+            object-fit: cover;
+            /* 确保图片填充并保持比例 */
+            height: 100%;
+            /* 强制图片占满轮播项的高度 */
+            width: 100%;
+        }
+
+        .slider-content {
+            position: relative;
+            top: 250px !important;
+        }
+
+        .search-box {
+            display: flex;
+            flex-direction: column;
+            /* 改为垂直排列 */
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0);
+            padding: 20px;
+            border-radius: 30px;
+            width: 600px;
+            /* 增加宽度以适应更大的输入框 */
+            opacity: 0;
+            /* 初始状态隐藏 */
+            transform: translateY(20px);
+            /* 向下偏移，增加动画效果 */
+            transition: opacity 1s ease-out, transform 1s ease-out;
+            margin-top: -50px;
+        }
+
+        .search-box textarea {
+            padding: 12px;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            outline: none;
+            width: 100%;
+            /* 占满容器宽度 */
+            height: 150px;
+            /* 设置高度为更大的输入框 */
+            resize: vertical;
+            /* 允许垂直调整大小 */
+            margin-bottom: 15px;
+            /* 与按钮的间距 */
+            box-sizing: border-box;
+            /* 确保padding不影响宽度 */
+        }
+
+        .search-box button {
+            background-color: #51b4ff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 120px;
+        }
+
+        .search-box button:hover {
+            background-color: #1f8eff;
+        }
+
+        #search-input {
+            width: 100%;
+            /* 让文本框自适应容器宽度 */
+            max-width: 600px;
+            /* 限制最大宽度，避免过宽 */
+            height: 150px;
+            /* 适当增大高度，方便输入 */
+            padding: 10px;
+            font-size: 16px;
+            color: #333;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            outline: none;
+            resize: vertical;
+            /* 仅允许垂直调整大小 */
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* 聚焦状态美化 */
+        #search-input:focus {
+            border-color: #007bff;
+            box-shadow: 2px 2px 12px rgba(0, 123, 255, 0.3);
+        }
+
+        /* 占位符颜色优化 */
+        #search-input::placeholder {
+            color: #999;
+        }
+
+        .search-container h1 {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        .result {
+            background: linear-gradient(135deg, #e2ebff, #b0c7ff);
+            /* 渐变背景色 */
+            padding: 20px;
+            border-radius: 12px;
+            /* 增加圆角 */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1), 0 4px 16px rgba(0, 0, 0, 0.15);
+            /* 更强烈的阴影效果 */
+            transition: all 0.3s ease;
+            /* 增加过渡效果 */
+        }
+
+        .result:hover {
+            transform: scale(1.02);
+            /* 鼠标悬停时稍微放大 */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), 0 8px 24px rgba(0, 0, 0, 0.2);
+            /* 放大阴影效果 */
+        }
+
+        .result-container h1 {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        .title-container {
+            text-align: center;
+            /* 让 h3 居中 */
+        }
+
+        .centered-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            text-transform: uppercase;
+            display: inline-block;
+            /* 让内容宽度与文本匹配 */
+            position: relative;
+            /* 让伪元素相对 h3 定位 */
+            padding-bottom: 8px;
+            border-bottom: 2px solid #007bff;
+        }
+
+        #loadingMessage {
+            font-size: 16px;
+            color: #5f7fbb;
+            text-align: center;
+            font-style: italic;
+            margin-top: 20px;
+            opacity: 0.8;
+            /* 让提示信息看起来更柔和 */
+        }
+
+        .loading-message {
+            font-size: 18px;
+            text-align: center;
+        }
+
+        /* 样式化表格 */
+        .protein-matrix {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        /* 表头样式 */
+        .protein-matrix thead {
+            background-color: #abe0ff;
+            color: white;
+        }
+
+        /* 表格单元格样式 */
+        .protein-matrix th,
+        .protein-matrix td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        /* 行悬停效果 */
+        .protein-matrix tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* 设置奇偶行不同背景色，增强可读性 */
+        .protein-matrix tbody tr:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+
+        .protein-matrix tbody tr:nth-child(even) {
+            background-color: #ffffff;
+        }
+
+        /* 表格容器的内边距 */
+        .result-container {
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .dropdown-menu li a {
+            color: black !important;
+        }
+
+        .dropdown-menu li a:hover {
+            color: #7ad6ff !important;
+        }
+
+        /* 响应式设计: 在屏幕小于600px时，表格宽度可自适应 */
+        @media (max-width: 600px) {
+            .protein-matrix {
+                font-size: 14px;
+            }
+
+            .protein-matrix th,
+            .protein-matrix td {
+                padding: 8px;
+            }
+        }
+
+        .section-title {
+            margin-bottom: 30px;
+        }
+
+        .content-section {
+            padding: 50px 0;
+        }
+
+        .content-box {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel img {
+            border-radius: 10px;
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        h3 {
+            color: #333;
+            font-size: 22px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .options {
+            display: flex;
+            gap: 20px;
+            /* 统一间距 */
+            margin-bottom: 15px;
+        }
+
+        .custom-checkbox {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 16px;
+            position: relative;
+        }
+
+        .custom-checkbox input {
+            display: none;
+        }
+
+        .custom-checkbox .checkmark {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #007bff;
+            border-radius: 4px;
+            display: inline-block;
+            margin-right: 8px;
+            position: relative;
+            transition: background 0.3s, border 0.3s;
+        }
+
+        .custom-checkbox input:checked+.checkmark {
+            background: #007bff;
+            border-color: #007bff;
+        }
+
+        .custom-checkbox .checkmark::after {
+            content: "";
+            position: absolute;
+            left: 5px;
+            top: 1px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            display: none;
+        }
+
+        .custom-checkbox input:checked+.checkmark::after {
+            display: block;
+        }
+    </style>
+
+
+</head>
+
+
+<body class="index">
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">Enzyme</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="{% url 'page1' %}">首页 </a>
+                    </li>
+                    <li><a class="page-scroll" href="{% url 'importdatabase' %}">导入蛋白质数据</a></li>
+                    <li><a class="page-scroll" href="{% url 'page2' %}">表征模型</a></li>
+                    <li><a class="page-scroll" href="{% url 'similarenzyme' %}">酶挖掘</a></li>
+                    <li><a class="page-scroll" href="{% url 'dataanalysis' %}">蛋白质信息可视化</a></li>
+                    <li><a class="page-scroll" href="{% url 'enzymemodel' %}">蛋白质3D模型</a></li>
+                    <li><a class="page-scroll" href="{% url 'about' %}">蛋白质数据库</a></li>
+
+
+                    <li>
+                  <a href="http://127.0.0.1:8000/admin_ls/" style="margin-left: 30px;">管理员登录</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+    <section id="page-top" style="">
+        <div id="main-slide" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="item active">
+                    <div class="slider-content">
+                        <div class="col-md-12 text-center"
+                            style="display: flex; flex-direction: column; align-items: center;">
+                            <h1 class="animated3">
+                                <span><strong>酶挖掘</strong>及相似蛋白查找</span>
+                            </h1>
+                            <p class="animated2">请选择功能类型并输入蛋白质序列或表征模型矩阵</p>
+                            <div class="search-box">
+                                <div class="options">
+                                    <label class="custom-checkbox">
+                                        <input type="checkbox" name="searchType" value="isEnzyme">
+                                        <span class="checkmark"></span> 判断是否为酶
+                                    </label>
+                                    <label class="custom-checkbox">
+                                        <input type="checkbox" name="searchType" value="similarProtein">
+                                        <span class="checkmark"></span> 找出相似的蛋白质
+                                    </label>
+                                </div>
+                                <textarea id="search-input" placeholder="请输入蛋白质序列或者表征模型矩阵..." style="color: black;"></textarea>
+                                <button id="search-btn" style="margin-top: 10px;">搜索</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="result" class="result"
+        style="height: auto;background-image: url('../mainsrc/images/parallax/bg-01.jpg');">
+        <div class="result-container">
+            <div class="title-container">
+                <h3 class="centered-title">搜索结果</h3>
+            </div>
+            <div id="loadingMessage" class="loading-message">尚无搜索结果，请输入蛋白质序列进行搜索</div>
+
+            <!-- 在相似性表格前添加热力图容器 -->
+            <div id="enzyme-result" class="hidden" style="text-align: center; padding: 20px;background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);"></div>
+
+
+
+            <!-- 外层容器添加 Flex 布局 -->
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 30px auto;">
+                <div id="similarity-chart" style="display: none; width: 400px; height: 300px;"></div>
+                <div id="scatter-chart" style="display: none; width: 400px; height: 300px;"></div>
+                <div id="cluster-chart" style="display: none; width: 400px; height: 300px;"></div>
+            </div>
+
+            <!-- 添加热力图容器 -->
+            <div id="echart" style="display: none; width: 800px; height: 600px; margin: 20px auto;"></div>
+
+            <!-- 相似性表 -->
+            <table id="similarity-table" class="hidden protein-matrix">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>蛋白质 ID</th>
+                        <th>相似程度 (%)</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+            <!-- 详细信息表 -->
+            <table id="enzyme-table" class="hidden protein-matrix">
+                <thead>
+                    <tr>
+                        <th>UniProt ID</th>
+                        <th>Representation</th>
+                        <th>Function</th>
+                        <th>EC</th>
+                        <th>GO</th>
+                        <th>Domain</th>
+                        <th>Subcellular Location</th>
+                        <th>Sequence Feature</th>
+                        <th>InterPro Family</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="text-right" style="margin-top: 20px;">
+                <a href="{% url 'dataanalysis' %}" class="btn btn-primary"
+                    style="font-size: 16px; padding: 10px 20px;margin-right:30px;">
+                    下一步
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div id="introduction" class="content-section">
+        <div class="container">
+            <div class="section-title text-center">
+                <h3 style="font-size: 26px; font-weight: bold; color: #333;
+                                   text-transform: uppercase; border-bottom: 2px solid #007bff;
+                                   display: inline-block; padding-bottom: 10px;">
+                    功能介绍
+                </h3>
+            </div>
+
+            <div class="row align-items-center mb-5">
+                <div class="col-md-6">
+                    <div class="content-box">
+                        <h3>什么是酶？</h3>
+                        <p style="font-size: 14px;color: #5c6370;text-align: justify;">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;酶是一种生物大分子，主要是蛋白质，具有催化化学反应的作用。在生物体内，酶催化各种各样的生物化学反应，使得这些反应能在适宜的速率下进行，支持生命活动的进行。酶的作用具有高度特异性，即一种酶通常只催化一种化学反应或一类相似的反应。
+                            酶的催化作用具有以下特点：
+                            <br>1.高度特异性：酶对其催化的底物有非常特定的识别能力，这种特异性决定了酶催化的反应类型。
+                            <br>2.高效性：酶相较于无机催化剂能显著降低化学反应的活化能，从而在较低的能量水平下快速进行反应。
+                            <br>3.可调节性：酶的活性可以通过多种方式调节，如通过激素、抑制剂、激活剂或细胞内环境的变化来控制。
+                            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在生物化学和分子生物学领域，酶的研究有助于我们了解生命过程的基本原理，并在医学、农业、工业等多个领域有着广泛的应用。例如，在医学上，酶可以作为药物用于治疗疾病，在农业上，酶可以用于提高作物产量和抗病性，在工业上，酶可以用于改进或创造新的生产过程。
+                        </p>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="carousel-container">
+                        <div id="carousel-sequence" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active" style="margin-top: 20px;">
+                                    <img src="../../static/img/enzyme6.png" alt="蛋白质序列">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row align-items-center" style="margin-top: 20px;">
+                <div class="col-md-6">
+                    <div class="carousel-container">
+                        <div id="carousel-model" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active" style="margin-top: 20px;">
+                                    <img src="../../static/img/enzyme7.png" alt="表征模型" style="height: 460px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="content-box" style="margin-top: 40px;">
+                        <h3>我们如何进行酶挖掘？</h3>
+                        <p style="font-size: 16px;text-align: justify;">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用户首先传入一个想要进行酶挖掘的序列，传入后使用预训练的ESM模型处理该蛋白质后得到其对应的表征模型，这一步操作就是对蛋白质特征进行一个高度提取，所得到的表征模型能够很好的反应蛋白质的特征。
+                            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;然后，构建数据集，为神经网络的构建做准备。数据集部分根据蛋白质有无EC编号来给蛋白质打上是否是酶的标签。
+                            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最后构建全连接神经网络，传入蛋白质的表征模型及标签，得到最后的训练好的模型来进行酶挖掘。这里使用全连接神经网络，是因为表征模型本身就是蛋白质的高度浓缩的特征，因此只需要构建一个全连接神经网络找出其中的规律即可。
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <section id="examples" class="latest-news-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section-title text-center">
+                        <h3 style="font-size: 26px; font-weight: bold; color: #333;
+                               text-transform: uppercase; border-bottom: 2px solid #007bff;
+                               display: inline-block; padding-bottom: 10px;">搜索示例</h3>
+                        <p>我们提供一些典型的搜索结果，以便您快速学习如何使用功能</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="latest-news">
+                    <div class="col-md-12">
+                        <div class="latest-post">
+                            <img src="{% static 'img/step3.1.png' %}" class="img-responsive" alt="">
+                            <div class="post-details">
+                                <span class="date">1</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="latest-post">
+                            <img src="{% static 'img/step3.2.png' %}" class="img-responsive" alt="">
+                            <div class="post-details">
+                                <span class="date">2</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="latest-post">
+                            <img src="{% static 'img/step3.3.png' %}" class="img-responsive" alt="">
+                            <div class="post-details">
+                                <span class="date">3</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- jQuery Version 2.1.1 -->
+    <script src="{% static 'js/jquery-2.1.1.min.js' %}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'asset/js/bootstrap.min.js' %}"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+    <script src="{% static 'js/classie.js' %}"></script>
+    <script src="{% static 'js/count-to.js' %}"></script>
+    <script src="{% static 'js/jquery.appear.js' %}"></script>
+    <script src="{% static 'js/cbpAnimatedHeader.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/jquery.fitvids.js' %}"></script>
+    <script src="{% static 'js/styleswitcher.js' %}"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="{% static 'js/jqBootstrapValidation.js' %}"></script>
+    <script src="{% static 'js/contact_me.js' %}"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="{% static 'js/script.js' %}"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            setTimeout(function () {
+                let searchBox = document.querySelector(".search-box");
+                searchBox.style.opacity = "1";
+                searchBox.style.transform = "translateY(0)"; // 复位动画
+            }, 500); // 500ms 后执行动画
+        });
+    </script>
+    <script>
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let cookie of cookies) {
+                    cookie = cookie.trim();
+                    if (cookie.startsWith(name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        $(document).ready(function () {
+            $("#search-btn").click(function () {
+                let sequence = $("#search-input").val().trim();
+                let searchTypes = [];
+                $("input[name='searchType']:checked").each(function () {
+                    searchTypes.push($(this).val());
+                });
+
+                if (sequence === "") {
+                    alert("请输入蛋白质序列！");
+                    return;
+                }
+                if (searchTypes.length === 0) {
+                    alert("请至少选择一种分析类型！");
+                    return;
+                }
+                console.log('搜索触发');
+
+                $("#loadingMessage").text("搜索中，请稍候...");
+                $("#similarity-table, #enzyme-table, #enzyme-result").addClass("hidden");
+                $("#echart").hide(); // 隐藏热力图
+                var csrftoken = getCookie('csrftoken');
+                $("#loadingMessage").text("");
+
+                $.ajax({
+                    url: "/similar/api/search_enzyme",
+                    type: "POST",
+                    contentType: "application/json",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken
+                    },
+                    data: JSON.stringify({
+                        sequence: sequence,
+                        types: searchTypes,
+                        file_id: $("#selectedFileId").val() || null,
+                        operation_id: 'similar_' + Date.now() + '_' + Math.floor(Math.random() * 1000)
+                    }),
+                    success: function (response) {
+                        $("#loadingMessage").text("");
+                        $("#echart").hide(); // 隐藏热力图
+
+                        if (!response.success) {
+                            $("#loadingMessage").text(response.message || "处理请求时出错");
+                            return;
+                        }
+
+                        if (searchTypes.includes("isEnzyme")) {
+                            $("#enzyme-result").removeClass("hidden");
+                            if (response.isEnzyme) {
+                                $("#enzyme-result").html(`<p style="color:#4CAF50; border-radius: 8px; padding: 15px; font-size: 18px; font-weight: bold; box-shadow: 0 4px 8px rgba(0, 128, 0, 0.2);">该序列被判断为<strong>酶</strong> (置信度: ${response.enzyme_confidence}%)</p>`);
+                            } else {
+                                $("#enzyme-result").html(`<p style="color: #FF5733; border-radius: 8px; padding: 15px; font-size: 18px; font-weight: bold; box-shadow: 0 4px 8px rgba(255, 87, 51, 0.2);">该序列被判断为<strong>非酶</strong> (置信度: ${response.enzyme_confidence}%)</p>`);
+                            }
+                        }
+
+                        if (searchTypes.includes("similarProtein")) {
+                            if (!response.results || response.results.length === 0) {
+                                $("#loadingMessage").text("未找到相似的蛋白质，请尝试其他序列。");
+                            } else {
+                                $("#similarity-table tbody").empty();
+                                $("#enzyme-table tbody").empty();
+                                if (response.results && response.results.length > 0 && response.results[0].Embedding) {
+                                    renderVisualizations(response.results);
+                                }
+
+                                response.results.forEach((protein, index) => {
+                                    // if (response.results && response.results.length > 0 && response.results[0].Embedding) {
+                                    //     renderVisualizations(response.results);
+                                    // }
+                                    // 添加相似度表格行
+                                    $("#similarity-table tbody").append(
+                                        `<tr>
+                                        <td>${index + 1}</td>
+                                        <td>${protein.uniport_id}</td>
+                                        <td>${protein.similarity.toFixed(2)}</td>
+                                    </tr>`
+                                    );
+
+                                    // 添加详细信息表格行
+                                    $("#enzyme-table tbody").append(
+                                        `<tr>
+                                        <td>${protein.uniport_id}</td>
+                                         <td>
+                                          <div style="width: 200px; height: 200px; overflow: auto;">
+                                             ${protein.Representation || '-'}
+                                          </div>
+                                         </td>
+                                        <td>${protein.Function || '-'}</td>
+                                        <td>${Array.isArray(protein.EC) ? protein.EC.join(', ') : '-'}</td>
+                                        <td>${Array.isArray(protein.GO) ? protein.GO.join(', ') : '-'}</td>
+                                        <td>${Array.isArray(protein.Domain) ? protein.Domain.join(', ') : '-'}</td>
+                                        <td>${protein.SubcellularLocation || '-'}</td>
+                                        <td>${protein.SequenceFeature || '-'}</td>
+                                        <td>${protein.InterProFamily || '-'}</td>
+                                    </tr>`
+                                    );
+                                });
+
+                                $("#similarity-table, #enzyme-table").removeClass("hidden");
+                            }
+                        }
+                    },
+                    error: function (xhr) {
+                        let errorMsg = "搜索失败，请稍后再试。";
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMsg = xhr.responseJSON.message;
+                        }
+                        $("#loadingMessage").text(errorMsg);
+                        $("#echart").hide(); // 隐藏热力图
+                    }
+                });
+            });
+
+            // 添加热力图渲染函数
+            function renderHeatmap(embeddingStr) {
+                try {
+                    // 解析嵌入向量
+                    let embedding;
+                    if (typeof embeddingStr === 'string') {
+                        // 移除字符串开头的 '[' 和结尾的 ']'
+                        const cleanedStr = embeddingStr.replace(/^\[|\]$/g, '');
+                        // 分割字符串并转换为数字数组
+                        embedding = cleanedStr.split(',').map(num => parseFloat(num.trim()));
+                    } else {
+                        embedding = embeddingStr;
+                    }
+
+                    // 计算热力图的行数和列数（这里可以根据需要调整）
+                    const rows = 20;
+                    const cols = Math.ceil(embedding.length / rows);
+
+                    // 准备热力图数据
+                    let featureVectors = [];
+                    for (let i = 0; i < rows; i++) {
+                        let row = [];
+                        for (let j = 0; j < cols; j++) {
+                            const index = i * cols + j;
+                            if (index < embedding.length) {
+                                row.push(embedding[index]);
+                            } else {
+                                row.push(0); // 用0填充多余的单元格
+                            }
+                        }
+                        featureVectors.push(row);
+                    }
+
+                    // 转换为热力图所需的数据格式
+                    let featureVectorsdata = [];
+                    for (let i = 0; i < featureVectors.length; i++) {
+                        for (let j = 0; j < featureVectors[i].length; j++) {
+                            featureVectorsdata.push([j, i, featureVectors[i][j]]); // 每个点的 x, y, 值
+                        }
+                    }
+
+                    // 获取值的范围
+                    let minValue = Math.min(...featureVectorsdata.map(item => item[2]));
+                    let maxValue = Math.max(...featureVectorsdata.map(item => item[2]));
+
+                    // 初始化 ECharts 实例
+                    let myChart = echarts.init(document.getElementById('echart'));
+
+                    // 设置热力图的配置项
+                    let option = {
+                        title: {
+                            text: '蛋白质嵌入向量热力图',
+                            left: 'center'
+                        },
+                        tooltip: {
+                            position: 'top',
+                            formatter: function (params) {
+                                return `x: ${params.data[0]}, y: ${params.data[1]}<br>value: ${params.data[2].toFixed(4)}`; // 显示完整数值
+                            }
+                        },
+                        grid: {
+                            top: '60px',
+                            left: '3%',
+                            right: '3%',
+                            bottom: '15%',
+                            containLabel: true
+                        },
+                        xAxis: {
+                            type: 'category',
+                            data: Array.from({ length: featureVectors[0].length }, (_, i) => i), // x 轴对应每列的索引
+                            splitArea: { show: true }
+                        },
+                        yAxis: {
+                            type: 'category',
+                            data: Array.from({ length: featureVectors.length }, (_, i) => i), // y 轴对应每行的索引
+                            splitArea: { show: true }
+                        },
+                        visualMap: {
+                            min: minValue,
+                            max: maxValue,
+                            calculable: true,
+                            orient: 'horizontal',
+                            left: 'center',
+                            bottom: '0%',
+                            inRange: {
+                                color: ['#f0f0f0', '#ccece6', '#99d8c9', '#66c2a4', '#2ca25f', '#006d2c']
+                                // color: ['#ebedf0', '#c6e48b', '#7bc96f', '#239a3b', '#196127']
+                            }
+                        },
+                        series: [{
+                            name: '嵌入向量值',
+                            type: 'heatmap',
+                            data: featureVectorsdata,
+                            label: {
+                                show: true,
+                                position: 'inside',
+                                color: '#333',   // ✅ 黑字 / 深灰字，更清晰
+                                fontSize: 10,
+                                formatter: function (params) {
+                                    return params.data[2].toFixed(1);
+                                }
+                            },
+                            itemStyle: {
+                                borderColor: '#fff',
+                                borderWidth: 1
+                            },
+                            emphasis: {
+                                itemStyle: {
+                                    shadowBlur: 10,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        }]
+                    };
+
+                    // 使用配置项渲染图表
+                    myChart.setOption(option);
+
+                    // 显示热力图容器
+                    document.getElementById('echart').style.display = 'block';
+                    // document.getElementById('cluster-chart').style.display = 'block';
+                } catch (error) {
+                    console.error('渲染热力图出错:', error);
+                }
+            }
+
+            // 添加相似性柱状图渲染函数
+            function renderSimilarityBarChart(proteins) {
+                try {
+                    // 取前5条数据
+                    const topProteins = proteins.slice(0, 5);
+
+                    // 提取uniport_id和similarity数据
+                    const uniportIds = topProteins.map(protein => protein.uniport_id);
+                    const similarities = topProteins.map(protein => protein.similarity);
+
+                    // 对 x 轴标签截取前8个字符
+                    const truncatedUniportIds = uniportIds.map(id => {
+
+                        const parts = id.split('|'); // ["sp", "P08195", "4F2_HUMAN"] 等
+                        if (parts.length >= 2) {
+
+                            return parts[1];
+                        }
+                        // 如果意外情况，直接返回原 ID
+                        return id;
+                    });
+
+                    // 初始化ECharts实例
+                    let barChart = echarts.init(document.getElementById('similarity-chart'));
+
+                    // 设置柱状图的配置项
+                    let barOption = {
+                        title: {
+                            text: '相似蛋白质排名（前5）',
+                            left: 'center',
+                            top: '5%' // 标题距离上方留白
+                        },
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {
+                                type: 'shadow'
+                            },
+                            formatter: function (params) {
+                                // 鼠标移动时显示完整的 uniport_id
+                                return `${params[0].name}: ${params[0].value.toFixed(2)}`;
+                            }
+                        },
+                        grid: {
+                            left: '10%',
+                            right: '10%',
+                            bottom: '20%',
+                            top: '20%', // 调整上边距，避免与标题重叠
+                            containLabel: true
+                        },
+                        xAxis: {
+                            type: 'category',
+                            data: truncatedUniportIds, // 使用截取后的标签
+                            axisLabel: {
+                                rotate: 45,
+                                interval: 0,
+                                margin: 10 // 提供刻度标签与轴之间的间距
+                            }
+                        },
+                        yAxis: {
+                            type: 'value',
+                            name: '相似度',
+                            nameGap: 15 // 轴名称与坐标轴之间的距离
+                        },
+                        series: [{
+                            name: '相似度',
+                            type: 'bar',
+                            data: similarities,
+                            itemStyle: {
+                                color: function (params) {
+                                    // 使用新的配色方案
+                                    const colorList = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99'];
+                                    return colorList[params.dataIndex % colorList.length];
+                                }
+                            },
+                            label: {
+                                show: true,
+                                position: 'top',
+                                formatter: '{c}'
+                            }
+                        }]
+                    };
+
+                    // 使用配置项渲染图表
+                    barChart.setOption(barOption);
+
+                    // 显示柱状图容器
+                    document.getElementById('similarity-chart').style.display = 'block';
+                } catch (error) {
+                    console.error('渲染相似性柱状图出错:', error);
+                }
+            }
+
+            // 添加降维散点图渲染函数
+            function renderScatterPlot(proteins) {
+                try {
+                    // 提取所有蛋白质的嵌入向量（Embedding/Representation）
+                    const embeddings = proteins.map(protein => {
+                        let embedding;
+                        if (protein.Embedding) {
+                            const embeddingStr = typeof protein.Embedding === 'string' ? protein.Embedding : JSON.stringify(protein.Embedding);
+                            const cleanedStr = embeddingStr.replace(/^\[|\]$/g, '');
+                            embedding = cleanedStr.split(',').map(num => parseFloat(num.trim()));
+                        } else if (protein.Representation) {
+                            const embeddingStr = typeof protein.Representation === 'string' ? protein.Representation : JSON.stringify(protein.Representation);
+                            const cleanedStr = embeddingStr.replace(/^\[|\]$/g, '');
+                            embedding = cleanedStr.split(',').map(num => parseFloat(num.trim()));
+                        }
+                        return embedding;
+                    });
+                    function getRandomColor() {
+                        return '#' + Math.floor(Math.random() * 16777215).toString(16);
+                    }
+
+                    // 简单PCA降维到二维（假设 performPCA 函数已经存在）
+                    const pca = performPCA(embeddings, 2);
+
+                    // 生成散点图数据
+                    const scatterData = proteins.map((protein, index) => {
+                        return {
+                            name: protein.uniport_id,
+                            value: [pca[index][0], pca[index][1], protein.similarity],
+                            itemStyle: {
+                                color: getRandomColor() // 假设 getColorBySimilarity 函数返回合适的颜色
+                            }
+                        };
+                    });
+
+                    // 初始化ECharts实例
+                    let scatterChart = echarts.init(document.getElementById('scatter-chart'));
+
+                    // 设置散点图的配置项
+                    let scatterOption = {
+                        title: {
+                            text: '蛋白质嵌入空间降维分布',
+                            left: 'center',
+                            // top: '5%'
+                        },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: function (params) {
+                                return `${params.name}<br>相似度: ${params.value[2].toFixed(2)}<br>x: ${params.value[0].toFixed(3)}, y: ${params.value[1].toFixed(3)}`;
+                            }
+                        },
+                        grid: {
+                            left: '10%',
+                            right: '10%',
+                            bottom: '15%',
+                            top: '20%',
+                            containLabel: true
+                        },
+                        xAxis: {
+                            type: 'value',
+                            name: 'Dimension 1',
+                            nameGap: 15,
+                            splitLine: {
+                                show: false
+                            }
+                        },
+                        yAxis: {
+                            type: 'value',
+                            name: 'Dimension 2',
+                            nameGap: 15,
+                            splitLine: {
+                                show: false
+                            }
+                        },
+                        series: [{
+                            name: '蛋白质分布',
+                            type: 'scatter',
+                            data: scatterData,
+                            symbolSize: function (data) {
+                                // 根据相似度调整点的大小
+                                return Math.min(20, 5 + data[2] / 5);
+                            },
+                            emphasis: {
+                                itemStyle: {
+                                    shadowBlur: 10,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        }]
+                    };
+
+                    // 使用配置项渲染图表
+                    scatterChart.setOption(scatterOption);
+                    // 显示散点图容器
+                    document.getElementById('scatter-chart').style.display = 'block';
+                } catch (error) {
+                    console.error('渲染散点图出错:', error);
+                }
+            }
+
+
+            // 添加聚类模型图渲染函数
+            function renderClusterModel(proteins) {
+                try {
+                    // 提取所有蛋白质的嵌入向量
+                    const embeddings = proteins.map(protein => {
+                        let embedding;
+                        if (protein.Embedding) {
+                            const embeddingStr = typeof protein.Embedding === 'string' ? protein.Embedding : JSON.stringify(protein.Embedding);
+                            const cleanedStr = embeddingStr.replace(/^\[|\]$/g, '');
+                            embedding = cleanedStr.split(',').map(num => parseFloat(num.trim()));
+                        } else if (protein.Representation) {
+                            const embeddingStr = typeof protein.Representation === 'string' ? protein.Representation : JSON.stringify(protein.Representation);
+                            const cleanedStr = embeddingStr.replace(/^\[|\]$/g, '');
+                            embedding = cleanedStr.split(',').map(num => parseFloat(num.trim()));
+                        }
+                        return embedding;
+                    });
+
+                    // 简单的PCA降维（二维）
+                    const pca = performPCA(embeddings, 2);
+                    // 设置聚类数量，最多3类
+                    const k = Math.min(3, proteins.length);
+                    const clusters = kMeans(pca, k); // 假设 kMeans 函数返回每个点的簇索引
+
+                    // 新的簇颜色方案
+                    const clusterColors = ['#5470c6', '#91cc75', '#fac858'];
+
+                    // 生成聚类散点数据
+                    const clusterData = [];
+                    for (let i = 0; i < k; i++) {
+                        const data = proteins.filter((_, index) => clusters[index] === i).map((protein, idx) => {
+                            const dataIndex = proteins.indexOf(protein);
+                            return {
+                                name: protein.uniport_id,
+                                value: [pca[dataIndex][0], pca[dataIndex][1], protein.similarity]
+                            };
+                        });
+                        clusterData.push({
+                            name: `簇 ${i + 1}`,
+                            type: 'scatter',
+                            data: data,
+                            itemStyle: {
+                                color: clusterColors[i % clusterColors.length]
+                            },
+                            symbolSize: function (data) {
+                                return Math.min(20, 8 + data[2] / 10);
+                            }
+                        });
+                    }
+
+                    // 初始化ECharts实例
+                    let clusterChart = echarts.init(document.getElementById('cluster-chart'));
+
+                    // 设置聚类图的配置项
+                    let clusterOption = {
+                        title: {
+                            text: 'K均值聚类模型 (K=' + k + ')',
+                            left: 'center',
+                            // top: '5%'
+                        },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: function (params) {
+                                return `${params.seriesName}<br>${params.name}<br>相似度: ${params.value[2].toFixed(2)}`;
+                            }
+                        },
+                        legend: {
+                            data: Array.from({ length: k }, (_, i) => `簇 ${i + 1}`),
+                            orient: 'vertical',
+                            right: 10,
+                            top: '30%'
+                        },
+                        grid: {
+                            left: '10%',
+                            right: '20%',
+                            bottom: '15%',
+                            top: '20%',
+                            containLabel: true
+                        },
+                        xAxis: {
+                            type: 'value',
+                            name: 'Dimension 1',
+                            nameGap: 15,
+                            splitLine: {
+                                show: false
+                            }
+                        },
+                        yAxis: {
+                            type: 'value',
+                            name: 'Dimension 2',
+                            nameGap: 15,
+                            splitLine: {
+                                show: false
+                            }
+                        },
+                        series: clusterData
+                    };
+
+                    // 使用配置项渲染图表
+                    clusterChart.setOption(clusterOption);
+                    // 显示聚类图容器
+                    document.getElementById('cluster-chart').style.display = 'block';
+                } catch (error) {
+                    console.error('渲染聚类模型图出错:', error);
+                }
+            }
+
+
+            // 辅助函数：根据相似度返回颜色
+            function getColorBySimilarity(similarity) {
+                // 相似度越高颜色越深
+                if (similarity > 80) return '#c23531';
+                if (similarity > 60) return '#2f4554';
+                if (similarity > 40) return '#61a0a8';
+                if (similarity > 20) return '#d48265';
+                return '#91c7ae';
+            }
+
+            // PCA实现（二维降维）
+            function performPCA(data, dimensions = 2) {
+                // 这里实现一个简化版PCA
+                // 实际情况下应该使用专业库来实现PCA，这里只是为了演示
+
+                // 标准化数据
+                const means = [];
+                const stds = [];
+
+                // 计算每个维度的均值和标准差
+                for (let i = 0; i < data[0].length; i++) {
+                    let sum = 0;
+                    for (let j = 0; j < data.length; j++) {
+                        sum += data[j][i];
+                    }
+                    const mean = sum / data.length;
+                    means.push(mean);
+
+                    let variance = 0;
+                    for (let j = 0; j < data.length; j++) {
+                        variance += Math.pow(data[j][i] - mean, 2);
+                    }
+                    const std = Math.sqrt(variance / data.length);
+                    stds.push(std === 0 ? 1 : std); // 避免除以0
+                }
+
+                // 标准化
+                const normalized = data.map(row => {
+                    return row.map((val, i) => (val - means[i]) / stds[i]);
+                });
+
+                // 简单投影到前两个主成分（这里只是简化，实际PCA需要计算协方差矩阵、特征值等）
+                // 这里我们简单地将原始数据投影到随机方向上
+                const result = [];
+                for (let i = 0; i < normalized.length; i++) {
+                    const projected = [];
+                    for (let d = 0; d < dimensions; d++) {
+                        // 创建一个简化的"主成分"（随机方向）
+                        let projection = 0;
+                        for (let j = 0; j < normalized[i].length; j++) {
+                            const weight = Math.sin(j * (d + 1)); // 模拟不同的主成分方向
+                            projection += normalized[i][j] * weight;
+                        }
+                        projected.push(projection);
+                    }
+                    result.push(projected);
+                }
+
+                return result;
+            }
+
+            // K-means实现
+            function kMeans(data, k, maxIterations = 100) {
+                if (data.length <= k) {
+                    return data.map((_, index) => index); // 点数小于等于k，每个点一个簇
+                }
+
+                // 随机初始化k个中心点
+                let centers = [];
+                const usedIndices = new Set();
+                for (let i = 0; i < k; i++) {
+                    let index;
+                    do {
+                        index = Math.floor(Math.random() * data.length);
+                    } while (usedIndices.has(index));
+                    usedIndices.add(index);
+                    centers.push(data[index].slice());
+                }
+
+                // 分配和更新步骤
+                let assignments = Array(data.length).fill(-1);
+
+                for (let iter = 0; iter < maxIterations; iter++) {
+                    let changed = false;
+
+                    // 分配步骤
+                    for (let i = 0; i < data.length; i++) {
+                        let minDist = Infinity;
+                        let minIndex = -1;
+
+                        for (let j = 0; j < k; j++) {
+                            const dist = euclideanDistance(data[i], centers[j]);
+                            if (dist < minDist) {
+                                minDist = dist;
+                                minIndex = j;
+                            }
+                        }
+
+                        if (assignments[i] !== minIndex) {
+                            assignments[i] = minIndex;
+                            changed = true;
+                        }
+                    }
+
+                    // 如果没有变化，算法收敛
+                    if (!changed) break;
+
+                    // 更新步骤
+                    const newCenters = Array(k).fill(0).map(() => Array(data[0].length).fill(0));
+                    const counts = Array(k).fill(0);
+
+                    for (let i = 0; i < data.length; i++) {
+                        const cluster = assignments[i];
+                        counts[cluster]++;
+                        for (let dim = 0; dim < data[i].length; dim++) {
+                            newCenters[cluster][dim] += data[i][dim];
+                        }
+                    }
+
+                    // 计算新的中心点
+                    for (let i = 0; i < k; i++) {
+                        if (counts[i] > 0) {
+                            for (let dim = 0; dim < newCenters[i].length; dim++) {
+                                newCenters[i][dim] /= counts[i];
+                            }
+                            centers[i] = newCenters[i];
+                        }
+                    }
+                }
+
+                return assignments;
+            }
+
+            // 辅助函数：计算欧氏距离
+            function euclideanDistance(a, b) {
+                let sum = 0;
+                for (let i = 0; i < a.length; i++) {
+                    sum += Math.pow(a[i] - b[i], 2);
+                }
+                return Math.sqrt(sum);
+            }
+
+            // 修改renderHeatmap函数末尾部分，添加其他图表的渲染
+            function renderVisualizations(proteins) {
+                if (proteins && proteins.length > 0) {
+                    // 渲染热力图
+                    if (proteins[0].Embedding || proteins[0].Representation) {
+                        renderHeatmap(proteins[0].Embedding || proteins[0].Representation);
+                    }
+
+                    // 渲染相似性柱状图
+                    renderSimilarityBarChart(proteins);
+
+                    // 渲染降维散点图
+                    renderScatterPlot(proteins);
+
+                    // 渲染聚类模型图
+                    // renderClusterModel(proteins);
+                }
+            }
+        });
+    </script>
+
+    <!-- 在表单中添加隐藏字段 -->
+    <input type="hidden" id="selectedFileId" value="" />
+    <input type="hidden" id="currentLogId" value="" />
+
+</body>
+
+</html>

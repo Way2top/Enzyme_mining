@@ -1,0 +1,679 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>数据分析</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'asset/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+    <!-- Animate CSS -->
+    <link href="{% static 'css/animate.css' %}" rel="stylesheet">
+    <!-- Owl-Carousel -->
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.transitions.css' %}">
+    <!-- Custom CSS -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/responsive.css' %}" rel="stylesheet">
+    <!-- Colors CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/green.css' %}">
+    <!-- Colors CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/green.css' %}" title="green">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/light-red.css' %}" title="light-red">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/blue.css' %}" title="blue">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/light-blue.css' %}" title="light-blue">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/yellow.css' %}" title="yellow">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/light-green.css' %}" title="light-green">
+    <!-- Custom Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <!-- Echarts JS -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- Modernizer js -->
+    <script src="{% static 'js/modernizr.custom.js' %}"></script>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .page-scroll {
+            font-size: 18px;
+        }
+
+        .navbar-default .nav li a {
+            font-size: 14px !important;
+        }
+
+        #page-top {
+            position: relative;
+            height: 100vh;
+            background-image: url('../../static/img/enzyme17.jpg');
+            /* 设置背景图片 */
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            padding: 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        #page-top .carousel-inner {
+            position: relative;
+            z-index: 10001;
+        }
+
+        #page-top .carousel-item {
+            height: 100vh;
+            /* 保证每个轮播项的高度为视口高度 */
+        }
+
+        #page-top .carousel-item img {
+            object-fit: cover;
+            /* 确保图片填充并保持比例 */
+            height: 100%;
+            /* 强制图片占满轮播项的高度 */
+            width: 100%;
+        }
+
+        #result{
+            position: relative;
+            height: 100vh;
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            z-index: 1;
+        }
+
+        .result {
+            background: linear-gradient(135deg, #d1d7e3, #a0b1c6);
+            /* 调整为灰蓝色系渐变 */
+            padding: 20px;
+            border-radius: 12px;
+            /* 增加圆角 */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1), 0 4px 16px rgba(0, 0, 0, 0.2);
+            /* 阴影颜色稍深 */
+            transition: all 0.3s ease;
+            /* 增加过渡效果 */
+
+        }
+
+        .result:hover {
+            transform: scale(1.02);
+            /* 鼠标悬停时稍微放大 */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), 0 8px 24px rgba(0, 0, 0, 0.2);
+            /* 放大阴影效果 */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .dropdown-menu li a {
+            color: black !important;
+        }
+
+        .dropdown-menu li a:hover {
+            color: #7ad6ff !important;
+        }
+
+        #data {
+            min-height: 100vh;
+            background-color: #6c8ecf;
+            /* 更淡的蓝色 */
+            padding: 80px 20px 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* 添加阴影效果 */
+        }
+
+        .header-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            text-align: center;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .header-section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .header-section p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .chart-box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            height: 400px;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .chart-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+        }
+
+        .loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            font-size: 18px;
+            color: #333;
+            border-radius: 12px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 2s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #ffeaea;
+            border-radius: 5px;
+            border-left: 4px solid #e74c3c;
+        }
+
+        @media (max-width: 992px) {
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-box {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+
+<body class="index">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">Enzyme</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="{% url 'page1' %}">首页 </a>
+                    </li>
+                    <li><a class="page-scroll" href="{% url 'importdatabase' %}">导入蛋白质数据</a></li>
+                    <li><a class="page-scroll" href="{% url 'page2' %}">表征模型</a></li>
+                    <li><a class="page-scroll" href="{% url 'similarenzyme' %}">酶挖掘</a></li>
+                    <li><a class="page-scroll" href="{% url 'dataanalysis' %}">蛋白质信息可视化</a></li>
+                    <li><a class="page-scroll" href="{% url 'enzymemodel' %}">蛋白质3D模型</a></li>
+                    <li><a class="page-scroll" href="{% url 'about' %}">蛋白质数据库</a></li>
+
+
+                    <li>
+                       <a href="http://127.0.0.1:8000/admin_ls/" style="margin-left: 30px;">管理员登录</a>
+                    </li>
+                </ul>
+
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <section id="page-top">
+        <div id="main-slide" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="item active">
+                    <div class="slider-content">
+                        <div class="col-md-12 text-center"
+                            style="display: flex; flex-direction: column; align-items: center;">
+                            <h1 class="animated3">
+                                <span>数据分析及<strong>可视化</strong></span>
+                            </h1>
+                            <p class="animated2">您可以通过可视化图表了解各种蛋白质特性的统计数据</p>
+                            <a href="#data" class="page-scroll btn btn-primary animated1">了解更多</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="result" class="result" style="background-image: url('images/parallax/bg-01.jpg');padding-top: 160px;">
+        <div class="header-section" style="">
+            <h2>蛋白质数据分析可视化</h2>
+            <p>通过图表展示各种蛋白质特性的统计数据，包括功能分布、氨基酸替换及突变统计</p>
+        </div>
+
+        <div class="charts-container">
+            <div class="chart-box">
+                <div id="proteinChart" style="width: 100%; height: 100%;"></div>
+                <div class="loading" id="loading1">
+                    <div class="spinner"></div>
+                    <span>加载中...</span>
+                </div>
+            </div>
+            <div class="chart-box">
+                <div id="aminoAcidChart" style="width: 100%; height: 100%;"></div>
+                <div class="loading" id="loading2">
+                    <div class="spinner"></div>
+                    <span>加载中...</span>
+                </div>
+            </div>
+            <div class="chart-box">
+                <div id="mutationChart" style="width: 100%; height: 100%;"></div>
+                <div class="loading" id="loading3">
+                    <div class="spinner"></div>
+                    <span>加载中...</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- jQuery -->
+    <script src="{% static 'js/jquery-2.1.1.min.js' %}"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'asset/js/bootstrap.min.js' %}"></script>
+    <!-- Plugin JavaScript -->
+    <script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+    <script src="{% static 'js/classie.js' %}"></script>
+    <script src="{% static 'js/cbpAnimatedHeader.js' %}"></script>
+    <script src="{% static 'js/jquery.fitvids.js' %}"></script>
+    <script src="{% static 'js/styleswitcher.js' %}"></script>
+
+    <script>
+        // 初始化图表
+        var proteinChart = echarts.init(document.getElementById('proteinChart'));
+        var aminoAcidChart = echarts.init(document.getElementById('aminoAcidChart'));
+        var mutationChart = echarts.init(document.getElementById('mutationChart'));
+
+        // 显示加载状态
+        function showLoading() {
+            document.getElementById('loading1').style.display = 'flex';
+            document.getElementById('loading2').style.display = 'flex';
+            document.getElementById('loading3').style.display = 'flex';
+        }
+
+        // 隐藏加载状态
+        function hideLoading() {
+            document.getElementById('loading1').style.display = 'none';
+            document.getElementById('loading2').style.display = 'none';
+            document.getElementById('loading3').style.display = 'none';
+        }
+
+        // 显示错误消息
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.textContent = '数据加载失败: ' + message;
+            document.querySelector('.header-section').appendChild(errorDiv);
+        }
+
+        // 从API获取数据
+        function fetchDataFromAPI() {
+            showLoading();
+
+            fetch('/search/api/protein-data-api/')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('网络响应错误');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        // 更新图表
+                        updateProteinChart(data.data.proteinStats);
+                        updateAminoAcidChart(data.data.aminoAcidReplacements);
+                        updateMutationChart(data.data.mutationMatrix);
+                    } else {
+                        throw new Error(data.message || '未知错误');
+                    }
+                })
+                .catch(error => {
+                    console.error('获取数据失败:', error);
+                    showError(error.message);
+                    // 显示默认数据
+                    updateChartsWithDefaultData();
+                })
+                .finally(() => {
+                    hideLoading();
+                });
+        }
+
+        // 蛋白质数量统计图表
+        function updateProteinChart(proteinStats) {
+            const option = {
+                title: {
+                    text: '实验蛋白质数量统计',
+                    left: 'center',
+                    textStyle: {
+                        fontWeight: 'bold'
+                    }
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                legend: {
+                    data: ['有', '无'],
+                    top: 30
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['功能描述', 'EC号', 'GO注释', '结构域']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        name: '有',
+                        type: 'bar',
+                        stack: 'total',
+                        label: {
+                            show: true
+                        },
+                        emphasis: {
+                            focus: 'series'
+                        },
+                        data: [
+                            proteinStats.withFunction,
+                            proteinStats.withEC,
+                            proteinStats.withGO,
+                            proteinStats.withDomain
+                        ],
+                        itemStyle: {
+                            color: '#36c'
+                        }
+                    },
+                    {
+                        name: '无',
+                        type: 'bar',
+                        stack: 'total',
+                        label: {
+                            show: true
+                        },
+                        emphasis: {
+                            focus: 'series'
+                        },
+                        data: [
+                            proteinStats.total - proteinStats.withFunction,
+                            proteinStats.total - proteinStats.withEC,
+                            proteinStats.total - proteinStats.withGO,
+                            proteinStats.total - proteinStats.withDomain
+                        ],
+                        itemStyle: {
+                            color: '#ddd'
+                        }
+                    }
+                ]
+            };
+
+            proteinChart.setOption(option);
+        }
+
+        // 氨基酸替换数量统计图表
+        function updateAminoAcidChart(replacements) {
+            // 准备饼图数据
+            const pieData = Object.keys(replacements).map(key => ({
+                name: key,
+                value: replacements[key]
+            }));
+
+            const option = {
+                title: {
+                    text: '氨基酸替换数量统计',
+                    left: 'center',
+                    textStyle: {
+                        fontWeight: 'bold'
+                    }
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b}: {c} ({d}%)'
+                },
+                // 修改 legend，将其排列在底部并缩小字体
+                legend: {
+                    orient: 'horizontal',
+                    bottom: 10,   // 调整 legend 与底部的距离
+                    textStyle: {
+                        fontSize: 10  // 缩小 legend 的字体大小
+                    },
+                    data: Object.keys(replacements)
+                },
+                series: [
+                    {
+                        name: '替换类型',
+                        type: 'pie',
+                        // 调整饼图尺寸，使其更小，radius 为内外半径的百分比值
+                        // 例如这里采用 ['20%', '35%'] 表示饼图整体大小缩小
+                        radius: ['40%', '60%'],
+                        // center 属性调整饼图中心的位置：横向居中，纵向上移一点，给 legend 留出空间
+                        center: ['50%', '40%'],
+                        avoidLabelOverlap: false,
+                        itemStyle: {
+                            borderRadius: 10,
+                            borderColor: '#fff',
+                            borderWidth: 2
+                        },
+                        // 如果需要显示标签，也可以修改 label 配置，例如 position 改为 'outside'
+                        // 这里依然不显示饼图上标签
+                        label: {
+                            show: true,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            label: {
+                                show: true,
+                                fontSize: '18',
+                                fontWeight: 'bold'
+                            }
+                        },
+                        labelLine: {
+                            show: false
+                        },
+                        data: pieData
+                    }
+                ]
+            };
+
+            aminoAcidChart.setOption(option);
+        }
+
+
+        // 氨基酸突变统计图表
+        function updateMutationChart(mutationData) {
+            const option = {
+                title: {
+                    text: '氨基酸突变统计',
+                    left: 'center',
+                    textStyle: {
+                        fontWeight: 'bold'
+                    }
+                },
+                tooltip: {
+                    position: 'top',
+                    formatter: function (params) {
+                        return `${mutationData.sourceAcids[params.data[0]]} → ${mutationData.targetAcids[params.data[1]]}: ${params.data[2]}`;
+                    }
+                },
+                grid: {
+                    height: '70%',
+                    top: '10%'
+                },
+                xAxis: {
+                    type: 'category',
+                    data: mutationData.targetAcids,
+                    splitArea: {
+                        show: true
+                    },
+                    axisLabel: {
+                        interval: 0,
+                        rotate: 30
+                    }
+                },
+                yAxis: {
+                    type: 'category',
+                    data: mutationData.sourceAcids,
+                    splitArea: {
+                        show: true
+                    }
+                },
+                visualMap: {
+                    min: 0,
+                    max: 10,
+                    calculable: true,
+                    orient: 'horizontal',
+                    left: 'center',
+                    bottom: '0%',
+                    inRange: {
+                        color: ['#ebedf0', '#c6e48b', '#7bc96f', '#239a3b', '#196127']
+                    }
+                },
+                series: [{
+                    name: '突变频率',
+                    type: 'heatmap',
+                    data: mutationData.matrix,
+                    label: {
+                        show: true,
+                    },
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }]
+            };
+
+            mutationChart.setOption(option);
+        }
+
+        // 使用默认数据更新图表
+        function updateChartsWithDefaultData() {
+            // 默认蛋白质统计
+            const defaultProteinStats = {
+                total: 100,
+                withFunction: 80,
+                withEC: 60,
+                withGO: 70,
+                withDomain: 50
+            };
+
+            // 默认氨基酸替换数据
+            const defaultReplacements = {
+                '天冬氨酸/丝氨酸': 15,
+                '谷氨酸/苏氨酸': 12,
+                '甘氨酸/丙氨酸': 18,
+                '赖氨酸/精氨酸': 22,
+                '亮氨酸/异亮氨酸': 10,
+                '甲硫氨酸/缬氨酸': 8,
+                '其他替换': 25
+            };
+
+            // 默认突变矩阵数据
+            const defaultMutationData = {
+                sourceAcids: ['Ala', 'Arg', 'Asn', 'Asp', 'Cys', 'Glu', 'Gln', 'Gly', 'His', 'Ile'],
+                targetAcids: ['Val', 'Leu', 'Pro', 'Met', 'Phe', 'Ser', 'Thr', 'Trp', 'Tyr', 'Lys'],
+                matrix: []
+            };
+
+            // 生成随机矩阵数据
+            for (let i = 0; i < defaultMutationData.sourceAcids.length; i++) {
+                for (let j = 0; j < defaultMutationData.targetAcids.length; j++) {
+                    const value = Math.floor(Math.random() * 10);
+                    defaultMutationData.matrix.push([i, j, value]);
+                }
+            }
+
+            // 更新图表
+            updateProteinChart(defaultProteinStats);
+            updateAminoAcidChart(defaultReplacements);
+            updateMutationChart(defaultMutationData);
+        }
+
+        // 窗口大小改变时重绘图表
+        window.addEventListener('resize', function () {
+            proteinChart.resize();
+            aminoAcidChart.resize();
+            mutationChart.resize();
+        });
+
+        // 页面加载完成后获取数据
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchDataFromAPI();
+        });
+    </script>
+</body>
+
+</html>

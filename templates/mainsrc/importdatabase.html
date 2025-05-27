@@ -1,0 +1,1157 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Import Into Database</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'asset/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+    <!-- Animate CSS -->
+    <link href="{% static 'css/animate.css' %}" rel="stylesheet">
+    <!-- Owl-Carousel -->
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.transitions.css' %}">
+    <!-- Custom CSS -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/responsive.css' %}" rel="stylesheet">
+    <!-- Colors CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/green.css' %}">
+    <!-- Colors CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/green.css' %}" title="green">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/light-red.css' %}" title="light-red">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/blue.css' %}" title="blue">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/light-blue.css' %}" title="light-blue">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/yellow.css' %}" title="yellow">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/color/light-green.css' %}" title="light-green">
+    <!-- Custom Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <!-- Modernizer js -->
+    <script src="{% static 'js/modernizr.custom.js' %}"></script>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .page-scroll {
+            font-size: 18px;
+        }
+
+        .navbar-default .nav li a {
+            font-size: 14px !important;
+        }
+
+        #page-top {
+            position: relative;
+            height: 100vh;
+            background-image: url('../../static/img/database1.jpg'); /* 设置背景图片 */
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            padding: 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        #page-top .carousel-inner {
+            position: relative;
+            z-index: 10001;
+        }
+
+        #page-top .carousel-item {
+            height: 100vh; /* 保证每个轮播项的高度为视口高度 */
+        }
+
+        #page-top .carousel-item img {
+            object-fit: cover; /* 确保图片填充并保持比例 */
+            height: 100%; /* 强制图片占满轮播项的高度 */
+            width: 100%;
+        }
+
+        /* 给 card 元素设置圆角和阴影 */
+        .card {
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        /* 设置卡片标题的背景和文本颜色 */
+        .card-header {
+            background-color: #0b7ec4;
+            color: white;
+            padding: 12px 16px;
+        }
+
+        /* 卡片标题文字的样式 */
+        .card-header h5 {
+            font-size: 1.25rem;
+            margin-bottom: 0;
+        }
+
+        /* 卡片主体区域的padding和间距 */
+        .card-body {
+            padding: 20px;
+        }
+
+        input[type="file"] {
+            font-size: 15px;
+            height: 45px;
+            padding: 10px;
+            border: 1px solid #ccc; /* 添加淡灰色边框 */
+            border-radius: 4px; /* 圆角 */
+            background-color: #f8f9fa; /* 淡灰色背景 */
+            color: #495057; /* 文本颜色 */
+            cursor: pointer;
+            transition: all 0.3s ease; /* 添加过渡效果 */
+        }
+
+        /* 聚焦时的边框颜色和阴影 */
+        input[type="file"]:focus {
+            border-color: #17a2b8;
+            box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25);
+            outline: none;
+        }
+
+        /* 文件选择按钮的hover效果 */
+        input[type="file"]:hover {
+            background-color: #e9ecef; /* 鼠标悬停时更改背景颜色 */
+            border-color: #17a2b8;
+        }
+
+        /* 防止文件名的显示影响按钮样式 */
+        input[type="file"]::-webkit-file-upload-button {
+            font-size: 15px;
+            background-color: #1f8eff;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* 自定义文件上传按钮的悬停效果 */
+        input[type="file"]::-webkit-file-upload-button:hover {
+            background-color: #3b4dae;
+        }
+
+
+        /* 改变卡片的整体背景色 */
+        .card {
+            background-color: #ffffff; /* 白色背景 */
+        }
+
+        #fastaTable {
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: collapse;
+        }
+
+        #fastaTable, #fastaTable th, #fastaTable td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            word-wrap: break-word;
+        }
+
+        #fastaTable td:nth-child(7) {
+            max-width: 150px; /* 设置最大宽度和其他列一样 */
+            white-space: nowrap; /* 防止自动换行 */
+            overflow-x: auto; /* 超出部分显示滚动条 */
+            display: block; /* 使td可滚动 */
+        }
+
+        #fastaTable th, #fastaTable td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        #fastaTable th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        #fastaTable tr:hover {
+            background-color: #7aa6da;
+        }
+
+        #fastaFileInput {
+            margin-bottom: 10px;
+        }
+
+        /* 分页栏容器 */
+        .pagination {
+            display: flex;
+            justify-content: right;
+            align-items: center;
+            margin-top: 15px;
+            font-family: Arial, sans-serif;
+        }
+
+        /* 按钮样式 */
+        .pagination button,
+        .pagination span {
+            padding: 8px 12px;
+            margin: 0 4px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+            border: 1px solid #dcdfe6;
+            background-color: #f4f4f4;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* 按钮悬停和激活效果 */
+        .pagination button:hover:not(.disabled),
+        .pagination span:hover:not(.disabled) {
+            background-color: #409EFF;
+            color: #fff;
+            border-color: #409EFF;
+        }
+
+        /* 当前页按钮样式 */
+        .pagination button.disabled,
+        .pagination span.disabled {
+            background-color: #eaeaea;
+            color: #0b7ec4;
+            cursor: not-allowed;
+        }
+
+        /* 分隔符的样式 */
+        .pagination span {
+            cursor: default;
+            background-color: transparent;
+            color: #409EFF;
+        }
+
+        /* 上下按钮 */
+        .pagination button:disabled {
+            cursor: not-allowed;
+            background-color: #eaeaea;
+            border-color: #eaeaea;
+        }
+
+        .dropdown-menu li a {
+            color: black !important;
+        }
+
+        .dropdown-menu li a:hover {
+            color: #7ad6ff !important;
+        }
+
+        /* 响应式设计: 在屏幕小于600px时，表格宽度可自适应 */
+        @media (max-width: 600px) {
+            .protein-matrix {
+                font-size: 14px;
+            }
+
+            .protein-matrix th, .protein-matrix td {
+                padding: 8px;
+            }
+        }
+
+        .section-title {
+            margin-bottom: 30px;
+        }
+
+        .content-section {
+            padding: 50px 0;
+        }
+
+        .content-box {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel img {
+            border-radius: 10px;
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        h3 {
+            color: #333;
+            font-size: 22px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        strong {
+            color: #333333;
+        }
+
+    </style>
+
+
+</head>
+
+
+<body class="index">
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand page-scroll" href="#page-top">Enzyme</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="{% url 'page1' %}">首页 </a>
+                </li>
+                <li><a class="page-scroll" href="{% url 'importdatabase' %}">导入蛋白质数据</a></li>
+                <li><a class="page-scroll" href="{% url 'page2' %}">表征模型</a></li>
+                <li><a class="page-scroll" href="{% url 'similarenzyme' %}">酶挖掘</a></li>
+                <li><a class="page-scroll" href="{% url 'dataanalysis' %}">蛋白质信息可视化</a></li>
+                <li><a class="page-scroll" href="{% url 'enzymemodel' %}">蛋白质3D模型</a></li>
+                <li><a class="page-scroll" href="{% url 'about' %}">蛋白质数据库</a></li>
+
+
+                <li>
+                   <a href="http://127.0.0.1:8000/admin_ls/" style="margin-left: 30px;">管理员登录</a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+
+<section id="page-top">
+    <div id="main-slide" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="item active">
+                <div class="slider-content">
+                    <div class="col-md-12 text-center">
+                        <h1 class="animated3">
+                            <span><strong>数据</strong>导入</span>
+                        </h1>
+                        <p class="animated2"><span>选择您本地的<strong style="color: #69D2E7;">fasta文件</strong>并上传，即可自动整理成为蛋白质的信息表</span>
+                        </p>
+                        <a href="#import" class="page-scroll btn btn-primary animated1">GET STARTED</a>
+                        <a href="#introduction" class="page-scroll btn btn-primary animated1" style="margin: 0 10px;">LEARN
+                            MORE</a>
+                        <a href="#examples" class="page-scroll btn btn-primary animated1">EXAMPLES</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--
+<section id="import" class="portfolio-section-1" style="background-color: #f1f1ff;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title text-center">
+                    <h3 style="font-size: 26px; font-weight: bold; color: #333;
+                               text-transform: uppercase; border-bottom: 2px solid #007bff;
+                               display: inline-block; padding-bottom: 10px;">蛋白质库</h3>
+                </div>
+                <div class="col-md-12">
+                    <div class="card mb-4">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="mb-0">上传FASTA文件</h5>
+                        </div>
+                        <div class="card-body">
+                            <input type="file" id="fastaFileInput" accept=".fasta" class="form-control">
+
+                            <input type="file" id="fastaFileInput" accept=".fasta" class=""
+                                   style="font-size: 15px;height: 55px;">
+                        </div>
+                    </div>
+                    <table id="fastaTable" class="table table-bordered table-striped">
+                        <thead id="tableHeader">
+                        </thead>
+                        <tbody id="tableBody">
+                        </tbody>
+                    </table>
+                    <div class="pagination" id="pagination" style="margin-top: 20px;">
+                    </div>
+
+                    <div class="text-right" style="margin-top: 20px;">
+                        <a href="{% url 'page2' %}" class="btn btn-primary"
+                           style="font-size: 16px; padding: 10px 20px;margin-bottom: -100px;">
+                            下一步
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+-->
+<section id="import" class="portfolio-section-1" style="background-image: url('../mainsrc/images/parallax/bg-01.jpg');">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title text-center">
+                    <h3 style="font-size: 26px; font-weight: bold; color: #333;
+                               text-transform: uppercase; border-bottom: 2px solid #007bff;
+                               display: inline-block; padding-bottom: 10px;">蛋白质库</h3>
+                </div>
+                <div class="col-md-12">
+                    <div class="card mb-4">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="mb-0">上传FASTA文件</h5>
+                        </div>
+                        <div class="card-body">
+                            <input type="file" id="fastaFileInput" accept=".fasta" class=""
+                                   style="font-size: 15px;height: 55px;">
+                        </div>
+                    </div>
+                    <table id="fastaTable">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Protein Name</th>
+                            <th>Organism</th>
+                            <th>Gene Name</th>
+                            <th>Protein Existence</th>
+                            <th>Sequence Version</th>
+                            <th>Sequence</th>
+                            <th>Action</th> <!-- 新增按钮列 -->
+                        </tr>
+                        </thead>
+                        <tbody id="tableBody">
+
+                        </tbody>
+                    </table>
+                    <div class="pagination" id="pagination" style="margin-top: 20px;"></div>
+                    <div class="text-right" style="margin-top: 20px;">
+                        <a href="{% url 'page2' %}" class="btn btn-primary"
+                           style="font-size: 16px; padding: 10px 20px;margin-bottom: -100px;">
+                            下一步
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="introduction" class="content-section">
+    <div class="container">
+        <div class="section-title text-center">
+            <h3 style="font-size: 26px; font-weight: bold; color: #333;
+                               text-transform: uppercase; border-bottom: 2px solid #007bff;
+                               display: inline-block; padding-bottom: 10px;">
+                功能介绍
+            </h3>
+        </div>
+
+        <div class="row align-items-center mb-5">
+            <div class="col-md-6">
+                <div class="content-box">
+                    <h3>什么是fasta文件？</h3>
+                    <p style="font-size: 14px;color: #5c6370;margin-top: 10px;text-align: justify;">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fasta格式是一种基于文本用于表示核酸序列或多肽序列的格式。其中核酸或氨基酸均以单个字母来表示，且允许在序列前添加序列名及注释。
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fasta格式文件的第一行是由大于号“＞”（较常用）或分号“;”打头的任意文字说明，用于序列标记。从第二行开始为序列本身，只允许使用既定的核苷酸或氨基酸编码符号。通常核苷酸符号大小写均可，而氨基酸常用大写字母。
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;接着是序列的标识符“gi|187608668|ref|NM_001043364.2|”，然后是序列的描述信息。换行后是序列信息，序列中允许空格，换行，空行，直到下一个大于号，表示该序列的结束。
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;所有来源于NCBI的序列都有一个gi号“gi|gi_identifier”，gi号类似与数据库中的流水号，由数字组成，一条核酸或者蛋白质改变了，将赋予一个新的gi号，不能重复。
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gi号后面是序列的标识符，下表是来源于不同数据库的标识符的说明。标识符由序列来源标识、序列标识等几部分组成，他们之间用“|”隔开。
+                        或C（强）；W代表A或T（弱）；B代表G、T或C；D代表G、A或T；H代表A、C或T；V代表G、C或A；N代表A、G、C、T中任意一种。
+                    </p>
+
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="carousel-container">
+                    <div id="carousel-sequence" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active" style="margin-top: 30px;">
+                                <img src="../../static/img/myfasta.png" alt="蛋白质序列">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row align-items-center" style="margin-top: 20px;">
+            <div class="col-md-6">
+                <div class="carousel-container">
+                    <div id="carousel-model" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active" style="margin-top: 10px;">
+                                <img src="../../static/img/myfasta4.png" alt="表征模型">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="content-box" style="margin-top: 10px;">
+                    <h3>关于上传文件后的形式</h3>
+                    <p style="font-size: 16px;color: #5c6370;text-align: justify;">
+                        此功能允许用户上传FASTA蛋白质序列文件，核心功能包括：
+                        <br><strong>1.文件上传：</strong>用户可以在网页上选择并上传一个FASTA文件。
+                        <br><strong>2.文件读取：</strong>此网站会读取用户上传的FASTA文件内容。
+                        <br><strong>3.数据解析：</strong>此网站会解析FASTA文件中的信息，包括序列的标识符、描述和其他相关元数据。
+                        <br><strong>4.数据展示：</strong>解析后的数据被格式化并展示在网页的一个表格中，表格列包括序列的accession号、蛋白质名称、物种、基因名称、蛋白质存在性、序列版本和完整的序列字符串
+                    </p>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<section id="examples" class="latest-news-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title text-center">
+                    <h3 style="font-size: 26px; font-weight: bold; color: #333;
+                               text-transform: uppercase; border-bottom: 2px solid #007bff;
+                               display: inline-block; padding-bottom: 10px;">搜索示例</h3>
+                    <p>我们提供一些典型的搜索结果，以便您快速学习如何使用功能</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+                <div class="latest-news">
+                    <div class="col-md-12">
+                        <div class="latest-post">
+                            <img src="{% static 'img/step1.1.png' %}" class="img-responsive" alt="">
+                            <div class="post-details">
+                                <span class="date">1</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="latest-post">
+                            <img src="{% static 'img/step1.2.png' %}" class="img-responsive" alt="">
+                            <div class="post-details">
+                                <span class="date">2</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="latest-post">
+                            <img src="{% static 'img/step1.3.png' %}" class="img-responsive" alt="">
+                            <div class="post-details">
+                                <span class="date">3</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</section>
+
+<!-- jQuery Version 2.1.1 -->
+<script src="{% static 'js/jquery-2.1.1.min.js' %}"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="{% static 'asset/js/bootstrap.min.js' %}"></script>
+
+<!-- Plugin JavaScript -->
+<script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+<script src="{% static 'js/classie.js' %}"></script>
+<script src="{% static 'js/count-to.js' %}"></script>
+<script src="{% static 'js/jquery.appear.js' %}"></script>
+<script src="{% static 'js/cbpAnimatedHeader.js' %}"></script>
+<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'js/jquery.fitvids.js' %}"></script>
+<script src="{% static 'js/styleswitcher.js' %}"></script>
+
+<!-- Contact Form JavaScript -->
+<script src="{% static 'js/jqBootstrapValidation.js' %}"></script>
+<script src="{% static 'js/contact_me.js' %}"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="{% static 'js/script.js' %}"></script>
+<!--
+<script>
+    document.getElementById('fastaFileInput').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (!file) {
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const fastaContent = e.target.result;
+            parseFastaContent(fastaContent);
+        };
+        reader.readAsText(file);
+    });
+
+    // 预设文件按钮点击事件
+    document.querySelectorAll('.preset-file-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const fileId = this.getAttribute('data-file-id');
+            loadPresetFile(fileId);
+        });
+    });
+
+    // 加载预设文件的函数
+    function loadPresetFile(fileId) {
+        fetch(`/index/get_fasta_content/${fileId}/`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('网络响应不正常');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.error) {
+                    alert('加载文件失败: ' + data.error);
+                    return;
+                }
+
+                // 使用现有的解析函数处理内容
+                parseFastaContent(data.content);
+
+                // 显示正在查看的文件名
+                const fileNameElement = document.createElement('div');
+                console.log(data);
+
+                fileNameElement.className = 'alert alert-success mt-2';
+                fileNameElement.textContent = `当前查看: ${data.filename}`;
+
+                // 移除之前的提示（如果有）
+                const existingAlert = document.querySelector('.alert-success');
+                if (existingAlert) {
+                    existingAlert.remove();
+                }
+
+                // 添加到文件选择区域后面
+                document.querySelector('.card-body').appendChild(fileNameElement);
+            })
+            .catch(error => {
+                console.error('获取文件内容出错:', error);
+                alert('加载文件失败，请稍后再试');
+            });
+    }
+
+
+    let fastaEntries = [];
+    const itemsPerPage = 10;
+    let currentPage = 1;
+    let headers = ['ID', '描述', '序列'];
+
+    function parseFastaContent(fastaContent) {
+        // 重置数据
+        fastaEntries = [];
+
+        // 按>符号分割FASTA内容
+        const entries = fastaContent.split('>').filter(entry => entry.trim() !== '');
+
+        entries.forEach(entry => {
+            const lines = entry.split('\n');
+            const headerLine = lines[0].trim();
+            const sequence = lines.slice(1).join('').trim();
+
+            // 解析头部信息
+            let parsedHeader = {};
+            parsedHeader['完整描述'] = headerLine;
+
+            // 尝试解析常见的FASTA格式
+            // UniProt格式: >db|accession|name OS=organism GN=gene PE=existence SV=version
+            if (headerLine.includes('|') && headerLine.includes('OS=')) {
+                const parts = headerLine.split('|');
+                if (parts.length >= 3) {
+                    parsedHeader['数据库'] = parts[0];
+                    parsedHeader['登录号'] = parts[1];
+
+                    // 提取蛋白质名称和其他信息
+                    const restParts = parts[2].split(' ');
+                    parsedHeader['蛋白质名称'] = restParts[0];
+
+                    // 尝试提取生物体、基因名等信息
+                    const osMatch = headerLine.match(/OS=([^OX]+)/);
+                    if (osMatch) parsedHeader['生物体'] = osMatch[1].trim();
+
+                    const gnMatch = headerLine.match(/GN=([^PE]+)/);
+                    if (gnMatch) parsedHeader['基因名'] = gnMatch[1].trim();
+
+                    const peMatch = headerLine.match(/PE=(\d+)/);
+                    if (peMatch) parsedHeader['蛋白质存在'] = peMatch[1];
+
+                    const svMatch = headerLine.match(/SV=(\d+)/);
+                    if (svMatch) parsedHeader['序列版本'] = svMatch[1];
+                }
+            }
+            // NCBI格式: >gi|number|db|accession|locus description
+            else if (headerLine.includes('gi|')) {
+                const parts = headerLine.split('|');
+                if (parts.length >= 5) {
+                    parsedHeader['GI号'] = parts[1];
+                    parsedHeader['数据库'] = parts[2];
+                    parsedHeader['登录号'] = parts[3];
+                    parsedHeader['描述'] = parts.slice(4).join('|');
+                }
+            }
+            // 简单格式: >identifier description
+            else {
+                const firstSpace = headerLine.indexOf(' ');
+                if (firstSpace > 0) {
+                    parsedHeader['ID'] = headerLine.substring(0, firstSpace);
+                    parsedHeader['描述'] = headerLine.substring(firstSpace + 1);
+                } else {
+                    parsedHeader['ID'] = headerLine;
+                    parsedHeader['描述'] = '';
+                }
+            }
+
+            // 添加序列
+            parsedHeader['序列'] = sequence;
+
+            fastaEntries.push(parsedHeader);
+        });
+
+        // 根据解析结果动态确定表头
+        determineHeaders();
+        renderTable();
+        renderPagination();
+    }
+
+    function determineHeaders() {
+        if (fastaEntries.length === 0) return;
+
+        // 收集所有可能的表头
+        const allKeys = new Set();
+        fastaEntries.forEach(entry => {
+            Object.keys(entry).forEach(key => allKeys.add(key));
+        });
+
+        // 优先显示的字段顺序
+        const priorityFields = ['ID', '登录号', '蛋白质名称', '描述', '生物体', '基因名', '蛋白质存在', '序列版本', '序列'];
+
+        // 根据优先级排序表头
+        headers = priorityFields.filter(field => allKeys.has(field));
+
+        // 添加其他未包含的字段
+        allKeys.forEach(key => {
+            if (!headers.includes(key) && key !== '完整描述') { // 排除完整描述，通常太长
+                headers.push(key);
+            }
+        });
+
+        // 确保序列总是最后一列
+        if (headers.includes('序列')) {
+            headers = headers.filter(h => h !== '序列');
+            headers.push('序列');
+        }
+
+        // 渲染表头
+        const tableHeader = document.getElementById('tableHeader');
+        tableHeader.innerHTML = '';
+        const headerRow = document.createElement('tr');
+
+        headers.forEach(header => {
+            const th = document.createElement('th');
+            th.textContent = header;
+            headerRow.appendChild(th);
+        });
+
+        tableHeader.appendChild(headerRow);
+    }
+
+    function renderTable() {
+        const tableBody = document.getElementById('tableBody');
+        tableBody.innerHTML = ''; // 清空现有数据
+
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = Math.min(startIndex + itemsPerPage, fastaEntries.length);
+        const pageItems = fastaEntries.slice(startIndex, endIndex);
+
+        pageItems.forEach(entry => {
+            const row = document.createElement('tr');
+
+            headers.forEach(header => {
+                const cell = document.createElement('td');
+                cell.textContent = entry[header] || '';
+
+                // 为序列列添加特殊样式
+                /*
+                if (header === '序列') {
+                    cell.style.maxWidth = '150px';
+                    cell.style.whiteSpace = 'nowrap';
+                    cell.style.overflowX = 'auto';
+                    cell.style.display = 'block';
+                }*/
+                if (header === '序列') {
+                    const sequenceText = entry[header] || '';
+
+                    cell.textContent = '';
+                    cell.style.position = 'relative';
+                    cell.style.display = 'flex';
+                    cell.style.alignItems = 'center';
+                    cell.style.maxWidth = '300px';
+                    cell.style.gap = '8px';
+
+                    // 滚动区域
+                    const scrollContainer = document.createElement('div');
+                    scrollContainer.textContent = sequenceText;
+                    scrollContainer.style.flex = '1';
+                    scrollContainer.style.overflowX = 'auto';
+                    scrollContainer.style.whiteSpace = 'nowrap';
+                    scrollContainer.style.border = '1px solid #ccc';
+                    scrollContainer.style.padding = '4px 8px';
+                    scrollContainer.style.borderRadius = '4px';
+                    scrollContainer.style.backgroundColor = '#f9f9f9';
+                    scrollContainer.style.maxWidth = '110%';
+                    scrollContainer.style.paddingRight = '0'; // 为滚动条留出空间
+                    scrollContainer.style.height = '36px';
+
+                    // 优化滚动条样式（仅支持 WebKit 浏览器）
+                    scrollContainer.style.scrollbarWidth = 'thin'; // Firefox
+                    scrollContainer.style.msOverflowStyle = 'none'; // IE
+
+                    const styleEl = document.createElement('style');
+                    styleEl.innerHTML = `
+        div::-webkit-scrollbar {
+            height: 6px;
+        }
+        div::-webkit-scrollbar-thumb {
+            background-color: #999;
+            border-radius: 3px;
+        }
+        div::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+    `;
+                    document.head.appendChild(styleEl);
+
+                    // 复制按钮
+                    const copyBtn = document.createElement('button');
+                    copyBtn.textContent = '复制';
+                    copyBtn.style.flexShrink = '0';
+                    copyBtn.style.fontSize = '12px';
+                    copyBtn.style.padding = '2px 4px';
+                    copyBtn.style.cursor = 'pointer';
+                    copyBtn.style.marginRight = '-8px';
+                    copyBtn.style.border = 'none';
+                    copyBtn.style.borderRadius = '4px';
+                    copyBtn.style.backgroundColor = '#51b4ff';
+                    copyBtn.style.color = '#fff';
+                    copyBtn.style.boxShadow = '0 1px 3px rgba(0,0,0,0.2)';
+                    copyBtn.addEventListener('mouseenter', () => {
+                        copyBtn.style.backgroundColor = '#357ABD';  // 鼠标悬浮时颜色更深
+                    });
+                    copyBtn.addEventListener('mouseleave', () => {
+    copyBtn.style.backgroundColor = '#51b4ff';
+});
+
+                    copyBtn.addEventListener('click', () => {
+                        navigator.clipboard.writeText(sequenceText).then(() => {
+                            copyBtn.textContent = '已复制';
+                            setTimeout(() => (copyBtn.textContent = '复制'), 1500);
+                        }).catch(err => {
+                            console.error('复制失败:', err);
+                        });
+                    });
+
+                    cell.appendChild(scrollContainer);
+                    cell.appendChild(copyBtn);
+                }
+
+
+                row.appendChild(cell);
+            });
+
+            tableBody.appendChild(row);
+        });
+    }
+
+    function renderPagination() {
+        const paginationContainer = document.getElementById('pagination');
+        paginationContainer.innerHTML = ''; // 清空现有分页按钮
+
+        const totalPages = Math.ceil(fastaEntries.length / itemsPerPage);
+        if (totalPages === 0) return; // 如果没有数据，直接返回
+
+        // 添加 "第一页" 按钮
+        const firstButton = document.createElement('button');
+        firstButton.textContent = '首页';
+        firstButton.disabled = currentPage === 1;
+        firstButton.classList.toggle('disabled', currentPage === 1);
+        firstButton.addEventListener('click', function () {
+            currentPage = 1;
+            renderTable();
+            renderPagination();
+        });
+        paginationContainer.appendChild(firstButton);
+
+        const prevButton = document.createElement('button');
+        prevButton.textContent = '上一页';
+        prevButton.disabled = currentPage === 1;
+        prevButton.classList.toggle('disabled', currentPage === 1);
+        prevButton.addEventListener('click', function () {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable();
+                renderPagination();
+            }
+        });
+        paginationContainer.appendChild(prevButton);
+
+        const pageButtons = [];
+        const maxPageButtons = 5; // 显示最多 5 个页面
+        let startPage = Math.max(1, currentPage - 2);
+        let endPage = Math.min(totalPages, currentPage + 2);
+
+        if (startPage > 1) {
+            pageButtons.push('...');
+        }
+        for (let i = startPage; i <= endPage; i++) {
+            pageButtons.push(i);
+        }
+        if (endPage < totalPages) {
+            pageButtons.push('...');
+        }
+
+        pageButtons.forEach(function (pageButton) {
+            const button = document.createElement(pageButton === '...' ? 'span' : 'button');
+            if (pageButton === '...') {
+                button.textContent = pageButton;
+            } else {
+                button.textContent = pageButton;
+                button.disabled = currentPage === pageButton;
+                button.classList.toggle('disabled', currentPage === pageButton);
+                button.addEventListener('click', function () {
+                    currentPage = pageButton;
+                    renderTable();
+                    renderPagination();
+                });
+            }
+            paginationContainer.appendChild(button);
+        });
+
+        const nextButton = document.createElement('button');
+        nextButton.textContent = '下一页';
+        nextButton.disabled = currentPage === totalPages;
+        nextButton.classList.toggle('disabled', currentPage === totalPages);
+        nextButton.addEventListener('click', function () {
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTable();
+                renderPagination();
+            }
+        });
+        paginationContainer.appendChild(nextButton);
+
+        // 添加 "最后一页" 按钮
+        const lastButton = document.createElement('button');
+        lastButton.textContent = '末页';
+        lastButton.disabled = currentPage === totalPages;
+        lastButton.classList.toggle('disabled', currentPage === totalPages);
+        lastButton.addEventListener('click', function () {
+            currentPage = totalPages;
+            renderTable();
+            renderPagination();
+        });
+        paginationContainer.appendChild(lastButton);
+    }
+</script>
+-->
+<script>
+    document.getElementById('fastaFileInput').addEventListener('change', function (event) {
+    const file = event.target.files[0];
+    if (!file) {
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        const fastaContent = e.target.result;
+        displayFastaContent(fastaContent);
+    };
+    reader.readAsText(file);
+});
+
+let fastaArray = [];
+const itemsPerPage = 10;
+let currentPage = 1;
+
+function displayFastaContent(fastaContent) {
+    fastaArray = fastaContent.split('>');
+    fastaArray.shift(); // Remove the empty first element
+
+    renderTable();
+    renderPagination();
+}
+
+function renderTable() {
+    const tableBody = document.getElementById('tableBody');
+    tableBody.innerHTML = ''; // 清空现有数据
+
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, fastaArray.length);  // 保证endIndex不超过数据长度
+    const pageItems = fastaArray.slice(startIndex, endIndex);
+
+    pageItems.forEach(function (fastaItem) {
+        const lines = fastaItem.split('\n');
+        const descriptionLine = lines[0];
+        const sequence = lines.slice(1).join('');
+
+        // 解析描述行
+        const descriptionParts = descriptionLine.split('|');
+        const ID = descriptionParts[1];
+        const proteinName = descriptionParts[2].split('_')[0];
+        const organism = descriptionLine.match(/OS=(.*) OX=/)[1];
+        const geneName = descriptionLine.match(/GN=(.*) PE=/)[1];
+        const proteinExistence = descriptionLine.match(/PE=(\d+) SV=/)[1];
+        const sequenceVersion = descriptionLine.match(/SV=(\d+)/)[1];
+
+        // 插入新行并填充数据
+        const row = tableBody.insertRow();
+        row.insertCell(0).textContent = ID;
+        row.insertCell(1).textContent = proteinName;
+        row.insertCell(2).textContent = organism;
+        row.insertCell(3).textContent = geneName;
+        row.insertCell(4).textContent = proteinExistence;
+        row.insertCell(5).textContent = sequenceVersion;
+
+        const sequenceCell = row.insertCell(6);
+        sequenceCell.textContent = sequence;
+
+        // 添加复制按钮
+const actionCell = row.insertCell(7);
+        actionCell.style.textAlign = 'center';  // 居中按钮
+        const copyButton = document.createElement('button');
+        copyButton.textContent = '复制序列';
+        copyButton.classList.add('btn', 'btn-sm', 'btn-primary');
+        copyButton.onclick = function() {
+            copyToClipboard(sequence);
+        };
+        actionCell.appendChild(copyButton);
+    });
+}
+
+// 复制到剪贴板函数
+function copyToClipboard(text) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    alert('序列已复制到剪贴板');
+}
+
+
+    function renderPagination() {
+        const paginationContainer = document.getElementById('pagination');
+        paginationContainer.innerHTML = ''; // 清空现有分页按钮
+
+        const totalPages = Math.ceil(fastaArray.length / itemsPerPage);
+        if (totalPages === 0) return; // 如果没有数据，直接返回
+
+        // 添加 "第一页" 按钮
+        const firstButton = document.createElement('button');
+        firstButton.textContent = 'First';
+        firstButton.disabled = currentPage === 1;
+        firstButton.classList.toggle('disabled', currentPage === 1);
+        firstButton.addEventListener('click', function () {
+            currentPage = 1;
+            renderTable();
+            renderPagination();
+        });
+        paginationContainer.appendChild(firstButton);
+
+        const prevButton = document.createElement('button');
+        prevButton.textContent = 'Previous';
+        prevButton.disabled = currentPage === 1;
+        prevButton.classList.toggle('disabled', currentPage === 1);
+        prevButton.addEventListener('click', function () {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable();
+                renderPagination();
+            }
+        });
+        paginationContainer.appendChild(prevButton);
+
+        const pageButtons = [];
+        const maxPageButtons = 5; // 显示最多 5 个页面
+        let startPage = Math.max(1, currentPage - 2);
+        let endPage = Math.min(totalPages, currentPage + 2);
+
+        if (startPage > 1) {
+            pageButtons.push('...');
+        }
+        for (let i = startPage; i <= endPage; i++) {
+            pageButtons.push(i);
+        }
+        if (endPage < totalPages) {
+            pageButtons.push('...');
+        }
+
+        pageButtons.forEach(function (pageButton) {
+            const button = document.createElement(pageButton === '...' ? 'span' : 'button');
+            if (pageButton === '...') {
+                button.textContent = pageButton;
+            } else {
+                button.textContent = pageButton;
+                button.disabled = currentPage === pageButton;
+                button.classList.toggle('disabled', currentPage === pageButton);
+                button.addEventListener('click', function () {
+                    currentPage = pageButton;
+                    renderTable();
+                    renderPagination();
+                });
+            }
+            paginationContainer.appendChild(button);
+        });
+
+        const nextButton = document.createElement('button');
+        nextButton.textContent = 'Next';
+        nextButton.disabled = currentPage === totalPages;
+        nextButton.classList.toggle('disabled', currentPage === totalPages);
+        nextButton.addEventListener('click', function () {
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTable();
+                renderPagination();
+            }
+        });
+        paginationContainer.appendChild(nextButton);
+
+        // 添加 "最后一页" 按钮
+        const lastButton = document.createElement('button');
+        lastButton.textContent = 'Last';
+        lastButton.disabled = currentPage === totalPages;
+        lastButton.classList.toggle('disabled', currentPage === totalPages);
+        lastButton.addEventListener('click', function () {
+            currentPage = totalPages;
+            renderTable();
+            renderPagination();
+        });
+        paginationContainer.appendChild(lastButton);
+    }
+</script>
+
+</body>
+
+</html>
