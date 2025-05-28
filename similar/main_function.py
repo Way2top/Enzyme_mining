@@ -16,7 +16,7 @@ from transformers import AutoTokenizer, AutoModelForMaskedLM
 BASE_DIR = Path(__file__).resolve().parent
 
 # 设置模型路径
-ESM_MODEL_NAME = "facebook/esm2_t12_35M_UR50D"
+ESM_MODEL_PATH = BASE_DIR / "esm2_t12_35M_UR50D"  # 使用本地模型路径
 CLASSIFIER_PATH = os.path.join(BASE_DIR, "models/protein_classifier.pth")
 LIBRARY_FEATURES_PATH = os.path.join(BASE_DIR, "data/processed/library_features.npy")
 DATA_PATH = os.path.join(BASE_DIR, "data/raw/protein_data.csv")
@@ -28,8 +28,9 @@ print(f"当前使用设备: {device}")
 
 # 初始化ESM模型和分类器
 try:
-    esm_tokenizer = AutoTokenizer.from_pretrained(ESM_MODEL_NAME)
-    esm_model = AutoModelForMaskedLM.from_pretrained(ESM_MODEL_NAME).to(device)
+    # 使用本地模型路径
+    esm_tokenizer = AutoTokenizer.from_pretrained(str(ESM_MODEL_PATH))
+    esm_model = AutoModelForMaskedLM.from_pretrained(str(ESM_MODEL_PATH)).to(device)
     print("成功加载ESM模型")
 except Exception as e:
     print(f"加载ESM模型失败: {str(e)}")

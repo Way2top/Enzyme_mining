@@ -14,7 +14,11 @@ import pandas as pd
 import json
 from pathlib import Path
 from django.conf import settings
+from transformers import AutoTokenizer, AutoModelForMaskedLM
 
+# 添加本地ESM模型路径配置
+BASE_DIR = Path(__file__).resolve().parent.parent
+ESM_MODEL_PATH = BASE_DIR / "similar" / "esm2_t12_35M_UR50D"
 
 # Create your views here.
 def home(request):
@@ -40,19 +44,47 @@ class ProteinEmbeddingView(APIView):
 
     def get_protein_embedding(self, sequence):
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        model, alphabet = pretrained.load_model_and_alphabet('esm2_t12_35M_UR50D')
-        model = model.to(device)
-        batch_converter = alphabet.get_batch_converter()
+        
+        # 使用transformers库加载本地模型
+        try:
+            print(f"尝试从本地路径加载模型: {ESM_MODEL_PATH}")
+            tokenizer = AutoTokenizer.from_pretrained(str(ESM_MODEL_PATH))
+            model = AutoModelForMaskedLM.from_pretrained(str(ESM_MODEL_PATH)).to(device)
+            print("成功加载本地ESM模型")
+            
+            # 预处理序列
+            inputs = tokenizer(
+                [sequence],
+                return_tensors="pt",
+                padding="max_length",
+                truncation=True,
+                max_length=1024
+            )
+            inputs = {k: v.to(device) for k, v in inputs.items()}
+            
+            # 推理并提取[CLS]标记的嵌入（第12层）
+            with torch.no_grad():
+                outputs = model(**inputs, output_hidden_states=True)
+                embedding = outputs.hidden_states[12][0, 0, :]
+            
+            return embedding.cpu().numpy()
+            
+        except Exception as e:
+            print(f"本地模型加载失败，尝试使用ESM库: {str(e)}")
+            # 如果本地模型加载失败，回退到ESM库
+            model, alphabet = pretrained.esm2_t12_35M_UR50D()
+            model = model.to(device)
+            batch_converter = alphabet.get_batch_converter()
 
-        data = [("protein", sequence)]
-        batch_labels, batch_strs, batch_tokens = batch_converter(data)
-        batch_tokens = batch_tokens.to(device)
+            data = [("protein", sequence)]
+            batch_labels, batch_strs, batch_tokens = batch_converter(data)
+            batch_tokens = batch_tokens.to(device)
 
-        with torch.no_grad():
-            results = model(batch_tokens, repr_layers=[12])
+            with torch.no_grad():
+                results = model(batch_tokens, repr_layers=[12])
 
-        embeddings = results["representations"][12][:, 0, :]
-        return embeddings.cpu().numpy()[0]
+            embeddings = results["representations"][12][:, 0, :]
+            return embeddings.cpu().numpy()[0]
 
 
 # 新增：处理矩阵搜索请求的API视图
@@ -107,19 +139,47 @@ class ProteinMatrixView(APIView):
 
     def get_protein_embedding(self, sequence):
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        model, alphabet = pretrained.load_model_and_alphabet('esm2_t12_35M_UR50D')
-        model = model.to(device)
-        batch_converter = alphabet.get_batch_converter()
+        
+        # 使用transformers库加载本地模型
+        try:
+            print(f"尝试从本地路径加载模型: {ESM_MODEL_PATH}")
+            tokenizer = AutoTokenizer.from_pretrained(str(ESM_MODEL_PATH))
+            model = AutoModelForMaskedLM.from_pretrained(str(ESM_MODEL_PATH)).to(device)
+            print("成功加载本地ESM模型")
+            
+            # 预处理序列
+            inputs = tokenizer(
+                [sequence],
+                return_tensors="pt",
+                padding="max_length",
+                truncation=True,
+                max_length=1024
+            )
+            inputs = {k: v.to(device) for k, v in inputs.items()}
+            
+            # 推理并提取[CLS]标记的嵌入（第12层）
+            with torch.no_grad():
+                outputs = model(**inputs, output_hidden_states=True)
+                embedding = outputs.hidden_states[12][0, 0, :]
+            
+            return embedding.cpu().numpy()
+            
+        except Exception as e:
+            print(f"本地模型加载失败，尝试使用ESM库: {str(e)}")
+            # 如果本地模型加载失败，回退到ESM库
+            model, alphabet = pretrained.esm2_t12_35M_UR50D()
+            model = model.to(device)
+            batch_converter = alphabet.get_batch_converter()
 
-        data = [("protein", sequence)]
-        batch_labels, batch_strs, batch_tokens = batch_converter(data)
-        batch_tokens = batch_tokens.to(device)
+            data = [("protein", sequence)]
+            batch_labels, batch_strs, batch_tokens = batch_converter(data)
+            batch_tokens = batch_tokens.to(device)
 
-        with torch.no_grad():
-            results = model(batch_tokens, repr_layers=[12])
+            with torch.no_grad():
+                results = model(batch_tokens, repr_layers=[12])
 
-        embeddings = results["representations"][12][:, 0, :]
-        return embeddings.cpu().numpy()[0]
+            embeddings = results["representations"][12][:, 0, :]
+            return embeddings.cpu().numpy()[0]
 
 
 # 数据分析页面视图
